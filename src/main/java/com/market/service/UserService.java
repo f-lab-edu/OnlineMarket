@@ -1,20 +1,17 @@
 package com.market.service;
 
-import java.util.HashMap;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.market.domain.User;
+import com.market.repository.UserRepository;
 
 @Service
 public class UserService {
-	public HashMap<String, User> user = new HashMap();
+	@Autowired
+	private UserRepository userRepository;
 
-	public void createUser(User user) {
-
+	public void signUp(User user) {
 		user.createdUser();
-
-		this.user.put(user.getId(), user);
-
 	}
 }

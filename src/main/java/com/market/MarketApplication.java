@@ -9,11 +9,11 @@ import com.market.service.UserService;
 @SpringBootApplication
 public class MarketApplication {
 
-	static UserService userService = new UserService();
+	private static UserService userService = new UserService();
 
 	public static void main(String[] args) {
 		SpringApplication.run(MarketApplication.class, args);
-		userService.createUser(new User(
+		userService.signUp(new User(
 			"minjung123",
 			"asdfasdf12",
 			"김민정",
