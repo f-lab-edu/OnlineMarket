@@ -3,7 +3,7 @@ package com.market;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.market.domain.CreateUserDomain;
+import com.market.domain.User;
 import com.market.service.UserService;
 
 @SpringBootApplication
@@ -13,7 +13,7 @@ public class MarketApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MarketApplication.class, args);
-		userService.createUser(new CreateUserDomain(
+		userService.createUser(new User(
 			"minjung123",
 			"asdfasdf12",
 			"김민정",

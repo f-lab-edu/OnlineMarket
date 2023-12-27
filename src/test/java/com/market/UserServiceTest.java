@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.market.domain.CreateUserDomain;
+import com.market.domain.User;
 import com.market.service.UserService;
 
 @SpringBootTest
@@ -19,7 +19,7 @@ public class UserServiceTest {
 	@Test
 	@DisplayName("고객 회원가입 성공")
 	public void createUserTest() {
-		CreateUserDomain user = new CreateUserDomain(
+		User user = new User(
 			"minjung123",
 			"asdfasdf12",
 			"김민정",
