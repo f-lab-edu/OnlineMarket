@@ -23,6 +23,7 @@ public class UserService {
 		userDomain.setPassword(SHA256Util.encryptSHA256(userDomain.getPassword()));
 
 		user.put(userDomain.getId(), userDomain);
+		System.out.println(user.get("minjung123").getPassword());
 
 	}
 }
