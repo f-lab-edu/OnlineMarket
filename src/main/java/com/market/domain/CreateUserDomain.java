@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateUserDomain {
+public class CreateUserDomain implements UserDomain {
 	private String id;
 	private String password;
 	private String name;
