@@ -9,7 +9,7 @@ import com.market.user.domain.User;
 
 @Repository
 public class InMemoryUserRepository implements UserRepository {
-	private HashMap<String, User> registeredUser = new HashMap<>();
+	private final HashMap<String, User> registeredUser = new HashMap<>();
 
 	@Override
 	public void insertUser(User user) {

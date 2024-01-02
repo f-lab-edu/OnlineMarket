@@ -4,16 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.market.user.controller.dto.SignUpRequestDto;
 import com.market.user.domain.User;
-import com.market.user.dto.SignUpRequestDto;
 import com.market.user.repository.UserRepository;
 
 @Service
 public class CreateUserService {
-	final private UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	@Autowired
-	public CreateUserService(@Qualifier("inMemoryUserRepository") UserRepository userRepository) {
+	CreateUserService(@Qualifier("inMemoryUserRepository") UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 

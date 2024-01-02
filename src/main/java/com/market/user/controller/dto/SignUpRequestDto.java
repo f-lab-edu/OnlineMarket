@@ -1,4 +1,4 @@
-package com.market.user.dto;
+package com.market.user.controller.dto;
 
 import com.market.user.domain.User;
 
