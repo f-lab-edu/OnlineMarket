@@ -1,11 +1,12 @@
-package com.market.service;
+package com.market.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.market.domain.User;
-import com.market.repository.UserRepository;
+import com.market.user.domain.User;
+import com.market.user.dto.SignUpRequestDto;
+import com.market.user.repository.UserRepository;
 
 @Service
 public class CreateUserService {
@@ -16,10 +17,8 @@ public class CreateUserService {
 		this.userRepository = userRepository;
 	}
 
-	public void signUp(User user) {
-		user.createdUser();
-		if (!userRepository.insertUser(user)) {
-			throw new RuntimeException("회원가입 실패!!");
-		}
+	public void signUp(SignUpRequestDto dto) {
+		User user = dto.toEntity();
+		userRepository.insertUser(user);
 	}
 }
