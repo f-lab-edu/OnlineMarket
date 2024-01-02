@@ -8,17 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.market.domain.User;
-import com.market.repository.UserRepository;
-import com.market.service.UserService;
+import com.market.repository.InMemoryUserRepository;
+import com.market.service.CreateUserService;
 
 @SpringBootTest
 public class UserServiceTest {
 
 	@Autowired
-	UserService userService;
+	CreateUserService userService;
 
 	@Autowired
-	UserRepository userRepository;
+	InMemoryUserRepository userRepository;
 
 	@Test
 	@DisplayName("고객 회원가입 성공")
