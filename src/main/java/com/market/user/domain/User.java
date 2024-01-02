@@ -15,16 +15,8 @@ public class User {
 	@Builder
 	public User(String email, String password, String name, String tel) {
 		this.email = email;
-		this.password = password;
+		this.password = SHA256Util.encryptSHA256(password);
 		this.name = name;
 		this.tel = tel;
 	}
-
-	public User createdUser() {
-
-		this.password = SHA256Util.encryptSHA256(this.password);
-
-		return this;
-	}
-
 }
