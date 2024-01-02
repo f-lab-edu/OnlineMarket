@@ -20,12 +20,12 @@ public class CreateUserService {
 	public void signUp(SignUpRequestDto dto) {
 		User user = dto.toEntity();
 		if (isDuplicatedUser(user.getEmail())) {
-			throw new IllegalArgumentException("이미 등록된 메일입니다");
+			throw new IllegalArgumentException("이미 등록된 회원입니다");
 		}
 		userRepository.insertUser(user);
 	}
 
 	private boolean isDuplicatedUser(String email) {
-		return userRepository.findByEmail(email).isPresent();
+		return userRepository.findByEmail(email) != null;
 	}
 }

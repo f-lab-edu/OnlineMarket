@@ -1,4 +1,4 @@
-package com.market;
+package com.market.user;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
