@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +22,7 @@ public class CreateUserServiceTest {
 	private CreateUserService createUserService;
 	@Mock
 	private UserRepository userRepository;
-	private final String email = "testwww@test.com";
+	private final String email = "test@test.com";
 
 	@DisplayName("회원가입 실패_이미 회원 존재")
 	@Test
@@ -32,7 +30,7 @@ public class CreateUserServiceTest {
 		// given
 		SignUpRequestDto dto = signUpRequestDto();
 		User user = signUpRequestDto().toEntity();
-		when(userRepository.findByEmail(email)).thenReturn(Optional.ofNullable(user));
+		when(userRepository.findByEmail(email)).thenReturn(user);
 		// when
 		final RuntimeException result = assertThrows(IllegalArgumentException.class,
 			() -> createUserService.signUp(dto));

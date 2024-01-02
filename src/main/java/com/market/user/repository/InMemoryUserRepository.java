@@ -1,7 +1,6 @@
 package com.market.user.repository;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +16,7 @@ public class InMemoryUserRepository implements UserRepository {
 	}
 
 	@Override
-	public Optional<User> findByEmail(String email) {
-		return Optional.ofNullable(registeredUser.get(email));
+	public User findByEmail(String email) {
+		return registeredUser.get(email);
 	}
 }
