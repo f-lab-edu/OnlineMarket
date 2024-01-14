@@ -1,5 +1,4 @@
-package com.market.exception;
+package com.market.error;
 
-public class ErrorResponse {
-	
+public record ErrorResponse(ErrorCode code, String message) {
 }
