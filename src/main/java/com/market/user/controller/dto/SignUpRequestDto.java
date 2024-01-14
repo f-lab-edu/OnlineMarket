@@ -1,5 +1,6 @@
 package com.market.user.controller.dto;
 
+import com.market.annotation.Password;
 import com.market.user.domain.User;
 
 import jakarta.validation.constraints.Email;
@@ -16,7 +17,7 @@ public class SignUpRequestDto {
 	@NotBlank
 	@Email
 	private String email;
-	@NotBlank
+	@Password
 	private String password;
 	@NotBlank
 	@Pattern(regexp = "[0-9]{11}")
