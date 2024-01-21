@@ -1,7 +1,5 @@
 package com.market.config;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -15,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(authInterceptor)
-			.excludePathPatterns(List.of("/users"));
+		registry.addInterceptor(authInterceptor);
+		// .excludePathPatterns(List.of("/users"));
 	}
 }
