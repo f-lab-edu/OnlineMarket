@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.market.auth.repository.RedisRepository;
 import com.market.user.controller.dto.SignInRequestDto;
+import com.market.user.domain.User;
 import com.market.user.repository.UserRepository;
+import com.market.util.TokenUtil;
 
 @Service
 public class TokenLoginService implements LoginService {
@@ -23,10 +25,14 @@ public class TokenLoginService implements LoginService {
 
 	@Override
 	public void login(SignInRequestDto dto) {
+		User user = dto.toEntity();
+		if (!userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword()).isPresent()) {
+			throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+		}
+		redisRepository.set(TokenUtil.generateNewToken(), user.getEmail());
 	}
 
 	@Override
 	public void logout() {
-
 	}
 }
