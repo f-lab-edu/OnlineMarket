@@ -2,6 +2,7 @@ package com.market.auth;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AuthInterceptor implements HandlerInterceptor {
 	private final RedisRepository redisRepository;
 
+	@Autowired
 	public AuthInterceptor(@Qualifier("inMemoryRedisRepository") RedisRepository redisRepository) {
 		this.redisRepository = redisRepository;
 	}
