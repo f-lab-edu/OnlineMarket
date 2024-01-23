@@ -31,8 +31,4 @@ public class TokenLoginService implements LoginService {
 		}
 		redisRepository.set(TokenUtil.generateNewToken(), user.getEmail());
 	}
-
-	@Override
-	public void logout() {
-	}
 }

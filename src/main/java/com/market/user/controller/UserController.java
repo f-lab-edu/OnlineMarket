@@ -1,7 +1,6 @@
 package com.market.user.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,10 +31,5 @@ public class UserController {
 	@PostMapping("login")
 	public void login(@Valid @RequestBody final SignInRequestDto dto) {
 		loginService.login(dto);
-	}
-
-	@GetMapping("logout")
-	public void logout() {
-		loginService.logout();
 	}
 }
