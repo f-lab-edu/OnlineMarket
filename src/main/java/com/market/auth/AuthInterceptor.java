@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.market.auth.define.AuthorizationHeaderKey;
 import com.market.auth.exception.UnauthorizedException;
 import com.market.auth.repository.RedisRepository;
 
@@ -24,9 +25,10 @@ public class AuthInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws
 		UnauthorizedException {
-		String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-		if (!token.isBlank() && token.startsWith("Bearer")) {
-			token = token.replace("Bearer ", "");
+		String token = Optional.of(request.getHeader(HttpHeaders.AUTHORIZATION))
+			.orElseThrow(UnauthorizedException::new);
+		if (token.startsWith(AuthorizationHeaderKey.key)) {
+			token = token.replace(AuthorizationHeaderKey.key, "");
 			Optional.ofNullable(redisRepository.get(token)).orElseThrow(UnauthorizedException::new);
 		} else {
 			throw new UnauthorizedException();
