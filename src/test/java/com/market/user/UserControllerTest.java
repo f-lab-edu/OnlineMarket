@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.market.error.ErrorCode;
 import com.market.error.ErrorController;
 import com.market.user.controller.UserController;
@@ -35,13 +35,12 @@ public class UserControllerTest {
 	private UserController userController;
 	@Mock
 	private CreateUserService createUserService;
-
+	private ObjectMapper objectMapper;
 	private MockMvc mockMvc;
-	private Gson gson;
 
 	@BeforeEach
 	public void init() {
-		gson = new Gson();
+		objectMapper = new ObjectMapper();
 		mockMvc = MockMvcBuilders.standaloneSetup(userController)
 			.setControllerAdvice(new ErrorController())
 			.build();
@@ -56,11 +55,12 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				.content(gson.toJson(SignUpRequestDto.builder()
+				.content(objectMapper.writeValueAsString(SignUpRequestDto.builder()
 					.name(name)
 					.email(email)
 					.password(password)
-					.tel(tel)))
+					.tel(tel)
+					.build()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
@@ -80,7 +80,7 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				.content(gson.toJson(signUpRequestDto()))
+				.content(objectMapper.writeValueAsString(signUpRequestDto()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
@@ -98,7 +98,7 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				.content(gson.toJson(signUpRequestDto()))
+				.content(objectMapper.writeValueAsString(signUpRequestDto()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
