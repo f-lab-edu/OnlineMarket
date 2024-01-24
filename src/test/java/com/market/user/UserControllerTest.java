@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.market.user.controller.UserController;
 import com.market.user.controller.dto.SignUpRequestDto;
@@ -31,13 +32,14 @@ public class UserControllerTest {
 	private UserController userController;
 	@Mock
 	private CreateUserService createUserService;
-
+	// @Mock
+	// private LoginService loginService;
+	private ObjectMapper objectMapper;
 	private MockMvc mockMvc;
-	private Gson gson;
 
 	@BeforeEach
 	public void init() {
-		gson = new Gson();
+		objectMapper = new ObjectMapper();
 		mockMvc = MockMvcBuilders.standaloneSetup(userController)
 			.build();
 	}
@@ -51,7 +53,7 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				.content(gson.toJson(SignUpRequestDto.builder()
+				.content(objectMapper.writeValueAsString(SignUpRequestDto.builder()
 					.name(name)
 					.email(email)
 					.password(password)
@@ -70,11 +72,66 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				.content(gson.toJson(signUpRequestDto()))
+				.content(objectMapper.writeValueAsString(signUpRequestDto()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
 		resultActions.andExpect(status().isCreated());
+	}
+
+	@DisplayName("로그인 실패_잘못된 파라미터")
+	@ParameterizedTest
+	@MethodSource("invaildSignInRequestDto")
+	public void invalidDtoLogin(String email, String password) throws Exception {
+		// given
+		final String url = "/users/login";
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.post(url)
+				// .content(objectMapper.writeValueAsString(SignInRequestDto.builder()
+				// 	.email(email)
+				// 	.password(password)
+				// 	.build()))
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		// then
+		resultActions.andExpect(status().isBadRequest())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+		// .andExpect(jsonPath("$.code").value(ErrorCode.BAD_REQUEST.name()));
+	}
+
+	@DisplayName("로그인 실패_존재하지 않는 회원")
+	@Test
+	public void notFoundUserLogin() throws Exception {
+		// given
+		final String url = "/users/login";
+		// doThrow(new IllegalArgumentException("존재하지 않는 회원입니다."))
+		// 	.when(loginService).login(any(SignInRequestDto.class));
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.post(url)
+				// .content(objectMapper.writeValueAsString(signInRequestDto()))
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		// then
+		resultActions.andExpect(status().isInternalServerError())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+		// .andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()));
+	}
+
+	@DisplayName("로그인 성공")
+	@Test
+	public void successLogin() throws Exception {
+		// given
+		final String url = "/users/login";
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.post(url)
+				// .content(objectMapper.writeValueAsString(signInRequestDto()))
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		// then
+		resultActions.andExpect(status().isOk());
 	}
 
 	private SignUpRequestDto signUpRequestDto() {
