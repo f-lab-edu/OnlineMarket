@@ -1,7 +1,6 @@
 package com.market.user;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.stream.Stream;
@@ -66,8 +65,7 @@ public class UserControllerTest {
 		// then
 		resultActions.andExpect(status().isBadRequest())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.code").value(ErrorCode.BAD_REQUEST.name()))
-			.andDo(print());
+			.andExpect(jsonPath("$.code").value(ErrorCode.BAD_REQUEST.name()));
 	}
 
 	@DisplayName("회원가입 실패_이미 등록된 회원")
@@ -86,8 +84,7 @@ public class UserControllerTest {
 		// then
 		resultActions.andExpect(status().isInternalServerError())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()))
-			.andDo(print());
+			.andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()));
 	}
 
 	@DisplayName("회원가입 성공")
@@ -102,8 +99,7 @@ public class UserControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
-		resultActions.andExpect(status().isCreated())
-			.andDo(print());
+		resultActions.andExpect(status().isCreated());
 	}
 
 	private SignUpRequestDto signUpRequestDto() {
