@@ -38,7 +38,7 @@ public class UserControllerTest {
 	private CreateUserService createUserService;
 	@Mock
 	private LoginService loginService;
-  private ObjectMapper objectMapper;
+	private ObjectMapper objectMapper;
 	private MockMvc mockMvc;
 
 	@BeforeEach
@@ -115,14 +115,35 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				.content(gson.toJson(SignInRequestDto.builder()
+				.content(objectMapper.writeValueAsString(SignInRequestDto.builder()
 					.email(email)
 					.password(password)
 					.build()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
-		resultActions.andExpect(status().isBadRequest());
+		resultActions.andExpect(status().isBadRequest())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.code").value(ErrorCode.BAD_REQUEST.name()));
+	}
+
+	@DisplayName("로그인 실패_존재하지 않는 회원")
+	@Test
+	public void notFoundUserLogin() throws Exception {
+		// given
+		final String url = "/users/login";
+		doThrow(new IllegalArgumentException("존재하지 않는 회원입니다."))
+			.when(loginService).login(any(SignInRequestDto.class));
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.post(url)
+				.content(objectMapper.writeValueAsString(signInRequestDto()))
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		// then
+		resultActions.andExpect(status().isInternalServerError())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()));
 	}
 
 	@DisplayName("로그인 성공")
@@ -133,7 +154,7 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				.content(gson.toJson(signInRequestDto()))
+				.content(objectMapper.writeValueAsString(signInRequestDto()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then

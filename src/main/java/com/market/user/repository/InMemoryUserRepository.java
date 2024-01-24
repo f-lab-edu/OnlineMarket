@@ -24,8 +24,10 @@ public class InMemoryUserRepository implements UserRepository {
 	@Override
 	public Optional<User> findByEmailAndPassword(String email, String password) {
 		User user = registeredUser.get(email);
-		if (user.getPassword().equals(password)) {
-			return Optional.of(user);
+		if (user != null) {
+			if (user.getPassword().equals(password)) {
+				return Optional.of(user);
+			}
 		}
 		return Optional.empty();
 	}
