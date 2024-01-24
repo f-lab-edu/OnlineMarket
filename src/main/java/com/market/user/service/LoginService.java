@@ -1,7 +1,8 @@
 package com.market.user.service;
 
+import com.market.user.controller.LoginResponse;
 import com.market.user.controller.dto.SignInRequestDto;
 
 public interface LoginService {
-	void login(SignInRequestDto dto);
+	LoginResponse login(SignInRequestDto dto);
 }

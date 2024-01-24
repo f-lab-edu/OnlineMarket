@@ -161,6 +161,21 @@ public class UserControllerTest {
 		resultActions.andExpect(status().isOk());
 	}
 
+	@DisplayName("인증 실패_잘못된 헤더 값")
+	@Test
+	public void invalidHeaderAuthTest() throws Exception {
+		// given
+		final String url = "/users/login";
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.post(url)
+				.content(objectMapper.writeValueAsString(signInRequestDto()))
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		// then
+		resultActions.andExpect(status().isOk());
+	}
+
 	private SignUpRequestDto signUpRequestDto() {
 		return SignUpRequestDto.builder()
 			.email("test@test.com")
