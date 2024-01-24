@@ -18,8 +18,6 @@ public class CreateUserService {
 	}
 
 	public void signUp(SignUpRequestDto dto) {
-		System.out.println("signUp");
-
 		User user = dto.toEntity();
 		if (isDuplicatedUser(user.getEmail())) {
 			throw new IllegalArgumentException("이미 등록된 회원입니다");

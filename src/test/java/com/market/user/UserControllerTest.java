@@ -22,6 +22,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.market.auth.AuthInterceptor;
+import com.market.auth.repository.InMemoryRedisRepository;
 import com.market.error.ErrorCode;
 import com.market.error.ErrorController;
 import com.market.user.controller.UserController;
@@ -40,12 +42,15 @@ public class UserControllerTest {
 	private LoginService loginService;
 	private ObjectMapper objectMapper;
 	private MockMvc mockMvc;
+	@Mock
+	private InMemoryRedisRepository redisRepository;
 
 	@BeforeEach
 	public void init() {
 		objectMapper = new ObjectMapper();
 		mockMvc = MockMvcBuilders.standaloneSetup(userController)
 			.setControllerAdvice(new ErrorController())
+			.addInterceptors(new AuthInterceptor(redisRepository))
 			.build();
 	}
 

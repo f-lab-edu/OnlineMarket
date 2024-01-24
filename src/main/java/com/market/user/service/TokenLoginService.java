@@ -26,8 +26,6 @@ public class TokenLoginService implements LoginService {
 
 	@Override
 	public LoginResponse login(SignInRequestDto dto) {
-		System.out.println("login");
-
 		User user = dto.toEntity();
 		if (userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword()).isEmpty()) {
 			throw new IllegalArgumentException("존재하지 않는 회원입니다.");
