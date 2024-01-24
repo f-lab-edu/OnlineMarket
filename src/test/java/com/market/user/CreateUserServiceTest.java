@@ -2,7 +2,9 @@ package com.market.user;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.*;
+
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.market.user.controller.dto.SignUpRequestDto;
 import com.market.user.domain.User;
-import com.market.user.repository.UserRepository;
+import com.market.user.repository.InMemoryUserRepository;
 import com.market.user.service.CreateUserService;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,7 +23,7 @@ public class CreateUserServiceTest {
 	@InjectMocks
 	private CreateUserService createUserService;
 	@Mock
-	private UserRepository userRepository;
+	private InMemoryUserRepository userRepository;
 	private final String email = "test@test.com";
 
 	@DisplayName("회원가입 실패_이미 회원 존재")
@@ -29,8 +31,8 @@ public class CreateUserServiceTest {
 	public void isDuplicatedUserSignUp() {
 		// given
 		SignUpRequestDto dto = signUpRequestDto();
-		User user = signUpRequestDto().toEntity();
-		when(userRepository.findByEmail(email)).thenReturn(user);
+		User user = dto.toEntity();
+		given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
 		// when
 		final RuntimeException result = assertThrows(IllegalArgumentException.class,
 			() -> createUserService.signUp(dto));
@@ -42,10 +44,11 @@ public class CreateUserServiceTest {
 	@Test
 	public void successUserSignUp() {
 		// given
-		when(userRepository.findByEmail(email)).thenReturn(null);
+		given(userRepository.findByEmail(email)).willReturn(Optional.empty());
 		// when
 		createUserService.signUp(signUpRequestDto());
 		// then
+		then(userRepository).should(times(1)).insertUser(any(User.class));
 	}
 
 	private SignUpRequestDto signUpRequestDto() {
