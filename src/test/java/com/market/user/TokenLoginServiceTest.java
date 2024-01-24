@@ -34,12 +34,13 @@ public class TokenLoginServiceTest {
 	@Test
 	public void notFoundUserSignIn() {
 		// given
-		given(userRepository.findByEmailAndPassword(email, password)).willReturn(Optional.empty());
+		User user = signInRequestDto().toEntity();
+		given(userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword())).willReturn(Optional.empty());
 		// when
 		final RuntimeException result = assertThrows(IllegalArgumentException.class,
 			() -> loginService.login(signInRequestDto()));
 		// then
-		assertThat(result.getMessage()).isEqualTo("존재하지 않는 회원입니다");
+		assertThat(result.getMessage()).isEqualTo("존재하지 않는 회원입니다.");
 	}
 
 	@DisplayName("로그인 성공")
@@ -47,8 +48,8 @@ public class TokenLoginServiceTest {
 	public void successSignIn() {
 		// given
 		SignInRequestDto dto = signInRequestDto();
-		User user = signInRequestDto().toEntity();
-		given(userRepository.findByEmailAndPassword(email, password)).willReturn(Optional.of(user));
+		User user = dto.toEntity();
+		given(userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword())).willReturn(Optional.of(user));
 		// when
 		loginService.login(dto);
 		// then

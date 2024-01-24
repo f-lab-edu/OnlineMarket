@@ -31,8 +31,8 @@ public class CreateUserServiceTest {
 	public void isDuplicatedUserSignUp() {
 		// given
 		SignUpRequestDto dto = signUpRequestDto();
-		User user = signUpRequestDto().toEntity();
-		given(userRepository.findByEmail(email)).willReturn(Optional.of(user));
+		User user = dto.toEntity();
+		given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
 		// when
 		final RuntimeException result = assertThrows(IllegalArgumentException.class,
 			() -> createUserService.signUp(dto));
