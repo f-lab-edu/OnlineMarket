@@ -1,5 +1,6 @@
 package com.market.user;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.stream.Stream;
@@ -20,7 +21,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.market.error.ErrorCode;
+import com.market.error.ErrorController;
 import com.market.user.controller.UserController;
 import com.market.user.controller.dto.SignInRequestDto;
 import com.market.user.controller.dto.SignUpRequestDto;
@@ -35,14 +38,14 @@ public class UserControllerTest {
 	private CreateUserService createUserService;
 	@Mock
 	private LoginService loginService;
-
+  private ObjectMapper objectMapper;
 	private MockMvc mockMvc;
-	private Gson gson;
 
 	@BeforeEach
 	public void init() {
-		gson = new Gson();
+		objectMapper = new ObjectMapper();
 		mockMvc = MockMvcBuilders.standaloneSetup(userController)
+			.setControllerAdvice(new ErrorController())
 			.build();
 	}
 
@@ -55,15 +58,37 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				.content(gson.toJson(SignUpRequestDto.builder()
+				.content(objectMapper.writeValueAsString(SignUpRequestDto.builder()
 					.name(name)
 					.email(email)
 					.password(password)
-					.tel(tel)))
+					.tel(tel)
+					.build()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
-		resultActions.andExpect(status().isBadRequest());
+		resultActions.andExpect(status().isBadRequest())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.code").value(ErrorCode.BAD_REQUEST.name()));
+	}
+
+	@DisplayName("회원가입 실패_이미 등록된 회원")
+	@Test
+	public void duplicatedUserSignUp() throws Exception {
+		// given
+		final String url = "/users";
+		doThrow(new IllegalArgumentException("이미 등록된 회원입니다"))
+			.when(createUserService).signUp(any(SignUpRequestDto.class));
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.post(url)
+				.content(objectMapper.writeValueAsString(signUpRequestDto()))
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		// then
+		resultActions.andExpect(status().isInternalServerError())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()));
 	}
 
 	@DisplayName("회원가입 성공")
@@ -74,7 +99,7 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				.content(gson.toJson(signUpRequestDto()))
+				.content(objectMapper.writeValueAsString(signUpRequestDto()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
