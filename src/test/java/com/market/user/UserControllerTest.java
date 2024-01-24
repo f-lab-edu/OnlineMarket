@@ -25,8 +25,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.market.error.ErrorCode;
 import com.market.error.ErrorController;
 import com.market.user.controller.UserController;
+import com.market.user.controller.dto.SignInRequestDto;
 import com.market.user.controller.dto.SignUpRequestDto;
 import com.market.user.service.CreateUserService;
+import com.market.user.service.LoginService;
 
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
@@ -34,7 +36,9 @@ public class UserControllerTest {
 	private UserController userController;
 	@Mock
 	private CreateUserService createUserService;
-	private ObjectMapper objectMapper;
+	@Mock
+	private LoginService loginService;
+  private ObjectMapper objectMapper;
 	private MockMvc mockMvc;
 
 	@BeforeEach
@@ -102,12 +106,53 @@ public class UserControllerTest {
 		resultActions.andExpect(status().isCreated());
 	}
 
+	@DisplayName("로그인 실패_잘못된 파라미터")
+	@ParameterizedTest
+	@MethodSource("invaildSignInRequestDto")
+	public void invalidDtoLogin(String email, String password) throws Exception {
+		// given
+		final String url = "/users/login";
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.post(url)
+				.content(gson.toJson(SignInRequestDto.builder()
+					.email(email)
+					.password(password)
+					.build()))
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		// then
+		resultActions.andExpect(status().isBadRequest());
+	}
+
+	@DisplayName("로그인 성공")
+	@Test
+	public void successLogin() throws Exception {
+		// given
+		final String url = "/users/login";
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.post(url)
+				.content(gson.toJson(signInRequestDto()))
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		// then
+		resultActions.andExpect(status().isOk());
+	}
+
 	private SignUpRequestDto signUpRequestDto() {
 		return SignUpRequestDto.builder()
 			.email("test@test.com")
 			.name("테스트")
 			.password("test")
 			.tel("01012341234")
+			.build();
+	}
+
+	private SignInRequestDto signInRequestDto() {
+		return SignInRequestDto.builder()
+			.email("test@test.com")
+			.password("test")
 			.build();
 	}
 
@@ -120,6 +165,17 @@ public class UserControllerTest {
 			Arguments.of("test", "테스트", "test", ""),
 			Arguments.of("test@test.com", "테스트", "test", "0101234"),
 			Arguments.of(null, "테스트", "test", "0101234")
+		);
+	}
+
+	private static Stream<Arguments> invaildSignInRequestDto() {
+		return Stream.of(
+			Arguments.of(null, null),
+			Arguments.of("test@test.com", null),
+			Arguments.of(null, "test"),
+			Arguments.of("", "test"),
+			Arguments.of("test@test.com", ""),
+			Arguments.of("", "")
 		);
 	}
 }
