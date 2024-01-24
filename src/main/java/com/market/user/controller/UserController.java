@@ -28,7 +28,7 @@ public class UserController {
 		createUserService.signUp(dto);
 	}
 
-	@PostMapping("login")
+	@PostMapping("/login")
 	public void login(@Valid @RequestBody final SignInRequestDto dto) {
 		loginService.login(dto);
 	}

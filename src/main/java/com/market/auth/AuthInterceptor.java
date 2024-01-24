@@ -27,7 +27,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws
 		UnauthorizedException {
-		String token = Optional.of(request.getHeader(HttpHeaders.AUTHORIZATION))
+		String token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
 			.orElseThrow(UnauthorizedException::new);
 		if (token.startsWith(AuthorizationHeaderKey.key)) {
 			token = token.replace(AuthorizationHeaderKey.key, "");

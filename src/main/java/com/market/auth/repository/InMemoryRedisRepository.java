@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class inMemoryRedisRepository implements RedisRepository {
+public class InMemoryRedisRepository implements RedisRepository {
 	private final Map<String, String> data = new HashMap<>();
 
 	@Override
