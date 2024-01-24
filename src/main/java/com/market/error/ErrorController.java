@@ -20,8 +20,19 @@ public class ErrorController {
 	//
 	// @ResponseStatus(HttpStatus.UNAUTHORIZED)
 	// @ExceptionHandler(UnauthorizedException.class)
-	// public ErrorResponse handleIllegalArgumentException(UnauthorizedException e) {
+	// public ErrorResponse handleUnauthorizedException(UnauthorizedException e) {
 	// 	return new ErrorResponse(ErrorCode.UNAUTHORIZED, e.getMessage());
 	// }
-
+	//
+	// @ResponseStatus(HttpStatus.BAD_REQUEST)
+	// @ExceptionHandler(RuntimeException.class)
+	// public ErrorResponse handleRuntimeException(RuntimeException e) {
+	// 	return new ErrorResponse(ErrorCode.BAD_REQUEST, e.getMessage());
+	// }
+	//
+	// @ResponseStatus(HttpStatus.BAD_REQUEST)
+	// @ExceptionHandler(Exception.class)
+	// public ErrorResponse handleException(Exception e) {
+	// 	return new ErrorResponse(ErrorCode.BAD_REQUEST, e.getMessage());
+	// }
 }

@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.market.user.controller.UserController;
 import com.market.user.controller.dto.SignUpRequestDto;
 import com.market.user.service.CreateUserService;
@@ -96,7 +95,7 @@ public class UserControllerTest {
 		);
 		// then
 		resultActions.andExpect(status().isBadRequest())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 		// .andExpect(jsonPath("$.code").value(ErrorCode.BAD_REQUEST.name()));
 	}
 
@@ -115,13 +114,28 @@ public class UserControllerTest {
 		);
 		// then
 		resultActions.andExpect(status().isInternalServerError())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 		// .andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()));
 	}
 
 	@DisplayName("로그인 성공")
 	@Test
 	public void successLogin() throws Exception {
+		// given
+		final String url = "/users/login";
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.post(url)
+				// .content(objectMapper.writeValueAsString(signInRequestDto()))
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		// then
+		resultActions.andExpect(status().isOk());
+	}
+
+	@DisplayName("인증 실패_잘못된 헤더 값")
+	@Test
+	public void invalidHeaderAuthTest() throws Exception {
 		// given
 		final String url = "/users/login";
 		// when

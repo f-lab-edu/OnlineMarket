@@ -24,4 +24,13 @@ public class UserController {
 	public void signUp(@Valid @RequestBody final SignUpRequestDto dto) {
 		createUserService.signUp(dto);
 	}
+	//
+	// @PostMapping("/login")
+	// public LoginResponse login(@Valid @RequestBody final SignInRequestDto dto) {
+	// 	return loginService.login(dto);
+	// }
+	//
+	// @GetMapping("/auth-test")
+	// public void authTest() {
+	// }
 }
