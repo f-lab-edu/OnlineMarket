@@ -1,6 +1,5 @@
 package com.market.user.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,6 @@ import com.market.user.repository.UserRepository;
 public class CreateUserService {
 	private final UserRepository userRepository;
 
-	@Autowired
 	public CreateUserService(@Qualifier("inMemoryUserRepository") UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}

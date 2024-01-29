@@ -21,13 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-<<<<<<< HEAD
-=======
-import com.market.auth.AuthInterceptor;
-import com.market.auth.repository.InMemoryRedisRepository;
-import com.market.error.ErrorCode;
 import com.market.error.ErrorController;
->>>>>>> eecf6fb (refactor: println() 코드 제거)
 import com.market.user.controller.UserController;
 import com.market.user.controller.dto.SignUpRequestDto;
 import com.market.user.service.CreateUserService;
@@ -42,18 +36,12 @@ public class UserControllerTest {
 	// private LoginService loginService;
 	private ObjectMapper objectMapper;
 	private MockMvc mockMvc;
-	@Mock
-	private InMemoryRedisRepository redisRepository;
 
 	@BeforeEach
 	public void init() {
 		objectMapper = new ObjectMapper();
 		mockMvc = MockMvcBuilders.standaloneSetup(userController)
-<<<<<<< HEAD
-=======
 			.setControllerAdvice(new ErrorController())
-			.addInterceptors(new AuthInterceptor(redisRepository))
->>>>>>> eecf6fb (refactor: println() 코드 제거)
 			.build();
 	}
 

@@ -1,6 +1,5 @@
 // package com.market.user.service;
 //
-// import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.beans.factory.annotation.Qualifier;
 // import org.springframework.stereotype.Service;
 //
@@ -16,7 +15,6 @@
 // 	private final RedisRepository redisRepository;
 // 	private final UserRepository userRepository;
 //
-// 	@Autowired
 // 	public TokenLoginService(@Qualifier("inMemoryRedisRepository") RedisRepository redisRepository,
 // 		UserRepository userRepository) {
 // 		this.redisRepository = redisRepository;
