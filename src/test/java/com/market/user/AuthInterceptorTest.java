@@ -124,14 +124,10 @@ public class AuthInterceptorTest {
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
-		final String response = resultActions2.andExpect(status().isOk())
-			.andReturn()
-			.getResponse()
-			.getContentAsString();
+		resultActions2.andExpect(status().isOk());
 		// </editor-fold>
 		// <editor-fold desc="인증">
 		// given
-		final String token = objectMapper.readValue(response, LoginResponse.class).getToken();
 		final String authTestUrl = "/users/auth-test";
 
 		// when
