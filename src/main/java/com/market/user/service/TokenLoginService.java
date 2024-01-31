@@ -19,14 +19,13 @@ public class TokenLoginService implements LoginService {
 		UserRepository userRepository) {
 		this.redisRepository = redisRepository;
 		this.userRepository = userRepository;
-
 	}
 
 	@Override
 	public LoginResponse login(SignInRequestDto dto) {
 		User user = dto.toEntity();
 		if (userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword()).isEmpty()) {
-			throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+			throw new IllegalArgumentException("로그인 정보가 올바르지 않습니다.");
 		}
 		String token = TokenUtil.createNewToken();
 		redisRepository.set(token, user.getEmail());
