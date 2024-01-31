@@ -30,7 +30,7 @@ public class TokenLoginServiceTest {
 	private final String email = "tset@test.com";
 	private final String password = "test";
 
-	@DisplayName("로그인 실패_회원이 존재하지 않음")
+	@DisplayName("로그인 실패_로그인 정보가 올바르지 않음")
 	@Test
 	public void notFoundUserSignIn() {
 		// given
@@ -40,7 +40,7 @@ public class TokenLoginServiceTest {
 		final RuntimeException result = assertThrows(IllegalArgumentException.class,
 			() -> loginService.login(signInRequestDto()));
 		// then
-		assertThat(result.getMessage()).isEqualTo("존재하지 않는 회원입니다.");
+		assertThat(result.getMessage()).isEqualTo("로그인 정보가 올바르지 않습니다.");
 	}
 
 	@DisplayName("로그인 성공")
