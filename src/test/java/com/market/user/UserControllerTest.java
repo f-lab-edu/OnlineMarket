@@ -1,5 +1,6 @@
 package com.market.user;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.stream.Stream;
@@ -21,10 +22,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.market.error.ErrorCode;
 import com.market.error.ErrorController;
 import com.market.user.controller.UserController;
+import com.market.user.controller.dto.SignInRequestDto;
 import com.market.user.controller.dto.SignUpRequestDto;
 import com.market.user.service.CreateUserService;
+import com.market.user.service.LoginService;
 
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
@@ -32,8 +36,8 @@ public class UserControllerTest {
 	private UserController userController;
 	@Mock
 	private CreateUserService createUserService;
-	// @Mock
-	// private LoginService loginService;
+	@Mock
+	private LoginService loginService;
 	private ObjectMapper objectMapper;
 	private MockMvc mockMvc;
 
@@ -89,16 +93,16 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				// .content(objectMapper.writeValueAsString(SignInRequestDto.builder()
-				// 	.email(email)
-				// 	.password(password)
-				// 	.build()))
+				.content(objectMapper.writeValueAsString(SignInRequestDto.builder()
+					.email(email)
+					.password(password)
+					.build()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
 		resultActions.andExpect(status().isBadRequest())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON));
-		// .andExpect(jsonPath("$.code").value(ErrorCode.BAD_REQUEST.name()));
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.code").value(ErrorCode.BAD_REQUEST.name()));
 	}
 
 	@DisplayName("로그인 실패_존재하지 않는 회원")
@@ -106,8 +110,8 @@ public class UserControllerTest {
 	public void notFoundUserLogin() throws Exception {
 		// given
 		final String url = "/users/login";
-		// doThrow(new IllegalArgumentException("존재하지 않는 회원입니다."))
-		// 	.when(loginService).login(any(SignInRequestDto.class));
+		doThrow(new IllegalArgumentException("존재하지 않는 회원입니다."))
+			.when(loginService).login(any(SignInRequestDto.class));
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
@@ -116,8 +120,8 @@ public class UserControllerTest {
 		);
 		// then
 		resultActions.andExpect(status().isInternalServerError())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON));
-		// .andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()));
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()));
 	}
 
 	@DisplayName("로그인 성공")
