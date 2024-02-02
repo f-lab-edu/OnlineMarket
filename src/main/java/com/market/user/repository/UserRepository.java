@@ -7,7 +7,7 @@ import com.market.user.domain.User;
 public interface UserRepository {
 	void insertUser(User user);
 
-	User findByEmail(String email);
+	Optional<User> findByEmail(String email);
 
 	Optional<User> findByEmailAndPassword(String email, String password);
 }

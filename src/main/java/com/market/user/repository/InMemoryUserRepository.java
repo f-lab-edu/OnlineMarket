@@ -16,15 +16,10 @@ public class InMemoryUserRepository implements UserRepository {
 		registeredUser.put(user.getEmail(), user);
 	}
 
-	@Override
-	public User findByEmail(String email) {
-		return registeredUser.get(email);
+	public Optional<User> findByEmail(String email) {
+		return Optional.ofNullable(registeredUser.get(email));
 	}
 
-	// public Optional<User> findByEmail(String email) {
-	// 	return Optional.ofNullable(registeredUser.get(email));
-	// }
-	//
 	@Override
 	public Optional<User> findByEmailAndPassword(String email, String password) {
 		User user = registeredUser.get(email);
