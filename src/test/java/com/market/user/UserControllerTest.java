@@ -62,11 +62,33 @@ public class UserControllerTest {
 					.name(name)
 					.email(email)
 					.password(password)
-					.tel(tel)))
+					.tel(tel)
+					.build()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
-		resultActions.andExpect(status().isBadRequest());
+		resultActions.andExpect(status().isBadRequest())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.code").value(ErrorCode.BAD_REQUEST.name()));
+	}
+
+	@DisplayName("회원가입 실패_이미 등록된 회원")
+	@Test
+	public void duplicatedUserSignUp() throws Exception {
+		// given
+		final String url = "/users";
+		doThrow(new IllegalArgumentException("이미 등록된 회원입니다"))
+			.when(createUserService).signUp(any(SignUpRequestDto.class));
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.post(url)
+				.content(objectMapper.writeValueAsString(signUpRequestDto()))
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		// then
+		resultActions.andExpect(status().isInternalServerError())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()));
 	}
 
 	@DisplayName("회원가입 성공")
@@ -115,7 +137,7 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				// .content(objectMapper.writeValueAsString(signInRequestDto()))
+				.content(objectMapper.writeValueAsString(signInRequestDto()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
@@ -132,7 +154,7 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				// .content(objectMapper.writeValueAsString(signInRequestDto()))
+				.content(objectMapper.writeValueAsString(signInRequestDto()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
@@ -147,7 +169,7 @@ public class UserControllerTest {
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
-				// .content(objectMapper.writeValueAsString(signInRequestDto()))
+				.content(objectMapper.writeValueAsString(signInRequestDto()))
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
@@ -163,6 +185,13 @@ public class UserControllerTest {
 			.build();
 	}
 
+	private SignInRequestDto signInRequestDto() {
+		return SignInRequestDto.builder()
+			.email("test@test.com")
+			.password("test")
+			.build();
+	}
+
 	private static Stream<Arguments> invaildSignUpRequestDto() {
 		return Stream.of(
 			Arguments.of("", "테스트", "test", "01012341234"),
@@ -172,6 +201,17 @@ public class UserControllerTest {
 			Arguments.of("test", "테스트", "test", ""),
 			Arguments.of("test@test.com", "테스트", "test", "0101234"),
 			Arguments.of(null, "테스트", "test", "0101234")
+		);
+	}
+
+	private static Stream<Arguments> invaildSignInRequestDto() {
+		return Stream.of(
+			Arguments.of(null, null),
+			Arguments.of("test@test.com", null),
+			Arguments.of(null, "test"),
+			Arguments.of("", "test"),
+			Arguments.of("test@test.com", ""),
+			Arguments.of("", "")
 		);
 	}
 }
