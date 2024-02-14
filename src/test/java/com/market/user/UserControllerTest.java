@@ -180,7 +180,7 @@ public class UserControllerTest {
 		return SignUpRequestDto.builder()
 			.email("test@test.com")
 			.name("테스트")
-			.password("test")
+			.password("testtest12!")
 			.tel("01012341234")
 			.build();
 	}
@@ -188,7 +188,7 @@ public class UserControllerTest {
 	private SignInRequestDto signInRequestDto() {
 		return SignInRequestDto.builder()
 			.email("test@test.com")
-			.password("test")
+			.password("testtest12!")
 			.build();
 	}
 
@@ -200,7 +200,10 @@ public class UserControllerTest {
 			Arguments.of("test@test.com", "테스트", "test", ""),
 			Arguments.of("test", "테스트", "test", ""),
 			Arguments.of("test@test.com", "테스트", "test", "0101234"),
-			Arguments.of(null, "테스트", "test", "0101234")
+			Arguments.of(null, "테스트", "test", "0101234"),
+			Arguments.of("test@test.com", "테스트", "test", "01012341234"),
+			Arguments.of("test@test.com", "테스트", "testtest12", "01012341234"),
+			Arguments.of("test@test.com", "테스트", "testtest!!", "01012341234")
 		);
 	}
 
