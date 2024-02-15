@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.market.user.controller.dto.SignUpRequestDto;
 import com.market.user.domain.User;
-import com.market.user.repository.InMemoryUserRepository;
 import com.market.user.service.CreateUserService;
 
 @ExtendWith(MockitoExtension.class)
