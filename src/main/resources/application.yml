@@ -1,2 +1,16 @@
 server:
   port: 8086
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/Market?serverTimezone=UTC&useLegacyDatetimeCode=false
+    #    username: root
+    #    password: 9515
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+
+mybatis:
+  type-aliases-package: com.market.*.domain
+  mapper-locations: mybatis/mapper/*.xml
