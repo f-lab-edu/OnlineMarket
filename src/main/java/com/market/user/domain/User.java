@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class User {
 	private Long id;
 	private String email;
@@ -13,7 +14,6 @@ public class User {
 	private String name;
 	private String tel;
 
-	@Builder
 	public User(Long id, String email, String password, String name, String tel) {
 		this.id = id;
 		this.email = email;
