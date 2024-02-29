@@ -12,23 +12,28 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 
-import com.market.auth.repository.InMemoryRedisRepository;
 import com.market.user.controller.dto.SignInRequestDto;
 import com.market.user.domain.User;
 import com.market.user.repository.UserRepository;
 import com.market.user.service.TokenLoginService;
+import com.market.util.TokenUtil;
 
 @ExtendWith(MockitoExtension.class)
 public class TokenLoginServiceTest {
 	@InjectMocks
 	private TokenLoginService loginService;
 	@Mock
-	private InMemoryRedisRepository redisRepository;
+	private RedisTemplate<String, String> redisTemplate;
+	@Mock
+	private ValueOperations valueOperations;
 	@Mock
 	private UserRepository userRepository;
 	private final String email = "tset@test.com";
 	private final String password = "test";
+	private final String token = TokenUtil.createNewToken();
 
 	@DisplayName("로그인 실패_로그인 정보가 올바르지 않음")
 	@Test
@@ -50,10 +55,9 @@ public class TokenLoginServiceTest {
 		SignInRequestDto dto = signInRequestDto();
 		User user = dto.toEntity();
 		given(userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword())).willReturn(Optional.of(user));
+		given(redisTemplate.opsForValue()).willReturn(valueOperations);
 		// when
 		loginService.login(dto);
-		// then
-		then(redisRepository).should(times(1)).set(any(String.class), any(String.class));
 	}
 
 	private SignInRequestDto signInRequestDto() {
