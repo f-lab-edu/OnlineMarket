@@ -9,7 +9,13 @@ spring:
     #    password: 9515
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
-
+  redis:
+    session:
+      host: localhost
+      port: 6379
+      password: 9515
+hello:
+  minjung: dk
 
 mybatis:
   type-aliases-package: com.market.*.domain
