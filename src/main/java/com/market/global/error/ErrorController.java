@@ -28,15 +28,15 @@ public class ErrorController {
 		return new ErrorResponse(ErrorCode.UNAUTHORIZED, e.getMessage());
 	}
 
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(RuntimeException.class)
 	public ErrorResponse handleRuntimeException(RuntimeException e) {
-		return new ErrorResponse(ErrorCode.BAD_REQUEST, e.getMessage());
+		return new ErrorResponse(ErrorCode.INTERNAL_SERER_ERROR, e.getMessage());
 	}
 
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	public ErrorResponse handleException(Exception e) {
-		return new ErrorResponse(ErrorCode.BAD_REQUEST, e.getMessage());
+		return new ErrorResponse(ErrorCode.INTERNAL_SERER_ERROR, e.getMessage());
 	}
 }

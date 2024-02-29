@@ -12,13 +12,13 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisTokenConfig {
 
-	@Value("${spring.redis.token.port}")
+	@Value("${spring.data.redis.host}")
 	private String host;
 
-	@Value("${spring.redis.token.port}")
+	@Value("${spring.data.redis.port}")
 	private int port;
 
-	@Value("${spring.redis.token.password}")
+	@Value("${spring.data.redis.password}")
 	private String password;
 
 	@Bean
@@ -31,8 +31,8 @@ public class RedisTokenConfig {
 	}
 
 	@Bean
-	public RedisTemplate<String, Object> redisTemplate() {
-		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+	public RedisTemplate<String, String> redisTemplate() {
+		RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(redisConnectionFactory());
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
 		redisTemplate.setValueSerializer(new StringRedisSerializer());

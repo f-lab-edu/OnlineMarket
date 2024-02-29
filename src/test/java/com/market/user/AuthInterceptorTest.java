@@ -15,9 +15,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 
 import com.market.auth.AuthInterceptor;
-import com.market.auth.define.HeaderKey;
 import com.market.auth.exception.UnauthorizedException;
 import com.market.auth.repository.InMemoryRedisRepository;
+import com.market.global.define.HeaderKey;
 import com.market.util.TokenUtil;
 
 import jakarta.servlet.http.HttpServletRequest;

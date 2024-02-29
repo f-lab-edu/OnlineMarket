@@ -1,8 +1,8 @@
 package com.market.user.service;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.market.auth.repository.RedisRepository;
 import com.market.user.controller.LoginResponse;
 import com.market.user.controller.dto.SignInRequestDto;
 import com.market.user.domain.User;
@@ -14,8 +14,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class TokenLoginService implements LoginService {
-	private final RedisRepository redisRepository;
 	private final UserRepository userRepository;
+	private final RedisTemplate<String, String> redisTemplate;
 
 	@Override
 	public LoginResponse login(SignInRequestDto dto) {
@@ -24,7 +24,7 @@ public class TokenLoginService implements LoginService {
 			throw new IllegalArgumentException("로그인 정보가 올바르지 않습니다.");
 		}
 		String token = TokenUtil.createNewToken();
-		redisRepository.set(token, user.getEmail());
+		redisTemplate.opsForValue().set(token, user.getEmail());
 		return new LoginResponse(token);
 	}
 }
