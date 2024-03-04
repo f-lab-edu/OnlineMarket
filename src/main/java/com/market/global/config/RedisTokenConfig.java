@@ -1,6 +1,5 @@
 package com.market.global.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -9,24 +8,21 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.market.global.properties.RedisProperties;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Configuration
 public class RedisTokenConfig {
-
-	@Value("${spring.data.redis.host}")
-	private String host;
-
-	@Value("${spring.data.redis.port}")
-	private int port;
-
-	@Value("${spring.data.redis.password}")
-	private String password;
+	private final RedisProperties redisProperties;
 
 	@Bean
 	public RedisConnectionFactory redisConnectionFactory() {
 		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-		config.setHostName(host);
-		config.setPort(port);
-		config.setPassword(password);
+		config.setHostName(redisProperties.getHost());
+		config.setPort(redisProperties.getPort());
+		config.setPassword(redisProperties.getPassword());
 		return new LettuceConnectionFactory(config);
 	}
 
