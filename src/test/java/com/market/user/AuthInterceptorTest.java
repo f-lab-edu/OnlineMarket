@@ -4,18 +4,19 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpHeaders;
 
 import com.market.auth.AuthInterceptor;
 import com.market.auth.exception.UnauthorizedException;
+import com.market.auth.repository.RedisTemplateRepository;
 import com.market.global.define.HeaderKey;
 import com.market.util.TokenUtil;
 
@@ -27,9 +28,7 @@ public class AuthInterceptorTest {
 	@InjectMocks
 	private AuthInterceptor authInterceptor;
 	@Mock
-	private RedisTemplate<String, String> redisTemplate;
-	@Mock
-	private ValueOperations valueOperations;
+	private RedisTemplateRepository redisRepository;
 	@Mock
 	private HttpServletRequest request;
 	@Mock
@@ -53,8 +52,7 @@ public class AuthInterceptorTest {
 	public void invaildTokenAuthorization() throws Exception {
 		// given
 		when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(HeaderKey.BEARER + "");
-		given(redisTemplate.opsForValue()).willReturn(valueOperations);
-		when(valueOperations.get(anyString())).thenReturn(null);
+		when(redisRepository.get("")).thenReturn(null);
 		// when
 		final RuntimeException result = assertThrows(UnauthorizedException.class,
 			() -> authInterceptor.preHandle(request, response, new Object()));
@@ -67,8 +65,7 @@ public class AuthInterceptorTest {
 	public void successAuthorization() throws Exception {
 		// given
 		when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(HeaderKey.BEARER + token);
-		given(redisTemplate.opsForValue()).willReturn(valueOperations);
-		when(valueOperations.get(token)).thenReturn("test@test.com");
+		when(redisRepository.get(token)).thenReturn(Optional.of("test@test.com"));
 		// when
 		assertThat(authInterceptor.preHandle(request, response, new Object())).isTrue();
 	}

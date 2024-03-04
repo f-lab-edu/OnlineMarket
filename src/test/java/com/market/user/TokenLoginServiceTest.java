@@ -12,9 +12,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 
+import com.market.auth.repository.RedisTemplateRepository;
+import com.market.user.controller.LoginResponse;
 import com.market.user.controller.dto.SignInRequestDto;
 import com.market.user.domain.User;
 import com.market.user.repository.UserRepository;
@@ -26,21 +26,20 @@ public class TokenLoginServiceTest {
 	@InjectMocks
 	private TokenLoginService loginService;
 	@Mock
-	private RedisTemplate<String, String> redisTemplate;
-	@Mock
-	private ValueOperations valueOperations;
+	private RedisTemplateRepository redisRepository;
 	@Mock
 	private UserRepository userRepository;
+	@Mock
+	private TokenUtil tokenUtil;
 	private final String email = "tset@test.com";
 	private final String password = "test";
-	private final String token = TokenUtil.createNewToken();
 
 	@DisplayName("로그인 실패_로그인 정보가 올바르지 않음")
 	@Test
 	public void notFoundUserSignIn() {
 		// given
 		User user = signInRequestDto().toEntity();
-		given(userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword())).willReturn(Optional.empty());
+		when(userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword())).thenReturn(Optional.empty());
 		// when
 		final RuntimeException result = assertThrows(IllegalArgumentException.class,
 			() -> loginService.login(signInRequestDto()));
@@ -54,10 +53,11 @@ public class TokenLoginServiceTest {
 		// given
 		SignInRequestDto dto = signInRequestDto();
 		User user = dto.toEntity();
-		given(userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword())).willReturn(Optional.of(user));
-		given(redisTemplate.opsForValue()).willReturn(valueOperations);
+		when(userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword())).thenReturn(Optional.of(user));
 		// when
-		loginService.login(dto);
+		LoginResponse response = loginService.login(dto);
+		// then
+		assertThat(response.getToken()).isNotNull();
 	}
 
 	private SignInRequestDto signInRequestDto() {
