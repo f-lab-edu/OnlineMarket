@@ -1,4 +1,4 @@
-package com.market.error;
+package com.market.global.error;
 
 import lombok.RequiredArgsConstructor;
 

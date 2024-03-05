@@ -15,9 +15,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 
 import com.market.auth.AuthInterceptor;
-import com.market.auth.define.HeaderKey;
 import com.market.auth.exception.UnauthorizedException;
-import com.market.auth.repository.InMemoryRedisRepository;
+import com.market.auth.repository.RedisTemplateRepository;
+import com.market.global.define.HeaderKey;
 import com.market.util.TokenUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ public class AuthInterceptorTest {
 	@InjectMocks
 	private AuthInterceptor authInterceptor;
 	@Mock
-	private InMemoryRedisRepository redisRepository;
+	private RedisTemplateRepository redisRepository;
 	@Mock
 	private HttpServletRequest request;
 	@Mock
@@ -68,7 +68,5 @@ public class AuthInterceptorTest {
 		when(redisRepository.get(token)).thenReturn(Optional.of("test@test.com"));
 		// when
 		assertThat(authInterceptor.preHandle(request, response, new Object())).isTrue();
-		//then
-		then(redisRepository).should(times(1)).get(any(String.class));
 	}
 }

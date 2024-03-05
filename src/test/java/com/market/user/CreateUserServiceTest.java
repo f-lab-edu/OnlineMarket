@@ -32,7 +32,7 @@ public class CreateUserServiceTest {
 		// given
 		SignUpRequestDto dto = signUpRequestDto();
 		User user = dto.toEntity();
-		given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
+		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 		// when
 		final RuntimeException result = assertThrows(IllegalArgumentException.class,
 			() -> createUserService.signUp(dto));
@@ -44,7 +44,7 @@ public class CreateUserServiceTest {
 	@Test
 	public void successUserSignUp() {
 		// given
-		given(userRepository.findByEmail(email)).willReturn(Optional.empty());
+		when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 		// when
 		createUserService.signUp(signUpRequestDto());
 		// then

@@ -1,5 +1,6 @@
 package com.market.user.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.market.auth.repository.RedisRepository;
@@ -9,13 +10,16 @@ import com.market.user.domain.User;
 import com.market.user.repository.UserRepository;
 import com.market.util.TokenUtil;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @Service
 public class TokenLoginService implements LoginService {
-	private final RedisRepository redisRepository;
 	private final UserRepository userRepository;
+	private final RedisRepository redisRepository;
+
+	public TokenLoginService(UserRepository userRepository,
+		@Qualifier("redisTemplateRepository") RedisRepository redisRepository) {
+		this.userRepository = userRepository;
+		this.redisRepository = redisRepository;
+	}
 
 	@Override
 	public LoginResponse login(SignInRequestDto dto) {
