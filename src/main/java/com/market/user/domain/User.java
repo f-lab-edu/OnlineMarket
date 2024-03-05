@@ -6,14 +6,16 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class User {
+	private Long id;
 	private String email;
 	private String password;
 	private String name;
 	private String tel;
 
-	@Builder
-	public User(String email, String password, String name, String tel) {
+	public User(Long id, String email, String password, String name, String tel) {
+		this.id = id;
 		this.email = email;
 		this.password = SHA256Util.encryptSHA256(password);
 		this.name = name;

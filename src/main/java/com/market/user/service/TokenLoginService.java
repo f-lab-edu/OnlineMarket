@@ -12,13 +12,13 @@ import com.market.util.TokenUtil;
 
 @Service
 public class TokenLoginService implements LoginService {
-	private final RedisRepository redisRepository;
 	private final UserRepository userRepository;
+	private final RedisRepository redisRepository;
 
-	public TokenLoginService(@Qualifier("inMemoryRedisRepository") RedisRepository redisRepository,
-		UserRepository userRepository) {
-		this.redisRepository = redisRepository;
+	public TokenLoginService(UserRepository userRepository,
+		@Qualifier("redisTemplateRepository") RedisRepository redisRepository) {
 		this.userRepository = userRepository;
+		this.redisRepository = redisRepository;
 	}
 
 	@Override

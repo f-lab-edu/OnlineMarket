@@ -1,4 +1,4 @@
-package com.market.config;
+package com.market.global.config;
 
 import java.util.List;
 

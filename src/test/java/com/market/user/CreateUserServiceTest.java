@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.market.user.controller.dto.SignUpRequestDto;
 import com.market.user.domain.User;
-import com.market.user.repository.InMemoryUserRepository;
+import com.market.user.repository.UserRepository;
 import com.market.user.service.CreateUserService;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,7 +23,7 @@ public class CreateUserServiceTest {
 	@InjectMocks
 	private CreateUserService createUserService;
 	@Mock
-	private InMemoryUserRepository userRepository;
+	private UserRepository userRepository;
 	private final String email = "test@test.com";
 
 	@DisplayName("회원가입 실패_이미 회원 존재")
@@ -32,7 +32,7 @@ public class CreateUserServiceTest {
 		// given
 		SignUpRequestDto dto = signUpRequestDto();
 		User user = dto.toEntity();
-		given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
+		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 		// when
 		final RuntimeException result = assertThrows(IllegalArgumentException.class,
 			() -> createUserService.signUp(dto));
@@ -44,7 +44,7 @@ public class CreateUserServiceTest {
 	@Test
 	public void successUserSignUp() {
 		// given
-		given(userRepository.findByEmail(email)).willReturn(Optional.empty());
+		when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 		// when
 		createUserService.signUp(signUpRequestDto());
 		// then

@@ -22,8 +22,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.market.error.ErrorCode;
-import com.market.error.ErrorController;
+import com.market.global.error.ErrorCode;
+import com.market.global.error.ErrorController;
 import com.market.user.controller.UserController;
 import com.market.user.controller.dto.SignInRequestDto;
 import com.market.user.controller.dto.SignUpRequestDto;
