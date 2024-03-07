@@ -13,6 +13,10 @@ public class SignInRequestDto {
 	private String email;
 	@NotBlank
 	private String password;
+	@NotBlank
+	private String appName;
+	@NotBlank
+	private String device;
 
 	public User toEntity() {
 		return User.builder()

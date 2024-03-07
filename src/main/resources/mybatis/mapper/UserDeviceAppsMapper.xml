@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.market.user.repository.UserDeviceAppsRepository">
+	<select id="findByUserIdAndDevice" resultType="UserDeviceApps">
+		SELECT id,
+			   userId,
+			   device,
+			   appId,
+			   lastAccessedAt
+		FROM UserDeviceApps
+		WHERE userId = #{userId}
+		  AND device = #{device}
+	</select>
+	<insert id="insertUserDeviceApps" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO UserDeviceApps (userId, device, appId)
+		VALUES (#{userId}, #{device}, #{appId})
+	</insert>
+</mapper>

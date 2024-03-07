@@ -5,20 +5,22 @@ import java.util.Optional;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.market.global.dto.RedisTokenDto;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Repository
 public class RedisTemplateRepository implements RedisRepository {
-	private final RedisTemplate<String, String> redisTemplate;
+	private final RedisTemplate<Long, RedisTokenDto> redisTemplate;
 
 	@Override
-	public Optional<String> get(String token) {
-		return Optional.ofNullable(redisTemplate.opsForValue().get(token));
+	public Optional<RedisTokenDto> get(Long key) {
+		return Optional.ofNullable(redisTemplate.opsForValue().get(key));
 	}
 
 	@Override
-	public void set(String token, String email) {
-		redisTemplate.opsForValue().set(token, email);
+	public void set(Long key, RedisTokenDto value) {
+		redisTemplate.opsForValue().set(key, value);
 	}
 }

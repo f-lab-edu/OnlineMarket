@@ -2,8 +2,10 @@ package com.market.auth.repository;
 
 import java.util.Optional;
 
-public interface RedisRepository {
-	Optional<String> get(String token);
+import com.market.global.dto.RedisTokenDto;
 
-	void set(String token, String email);
+public interface RedisRepository {
+	Optional<RedisTokenDto> get(Long key);
+
+	void set(Long key, RedisTokenDto value);
 }

@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @Getter
 public class LoginResponse {
 	private String token;
+	private Long userDeviceAppsId;
 }
