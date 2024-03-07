@@ -6,8 +6,9 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
+import com.market.global.dto.RedisTokenDto;
 import com.market.global.properties.RedisProperties;
 
 import lombok.RequiredArgsConstructor;
@@ -27,11 +28,11 @@ public class RedisTokenConfig {
 	}
 
 	@Bean
-	public RedisTemplate<String, String> redisTemplate() {
-		RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+	public RedisTemplate<Long, RedisTokenDto> redisTemplate() {
+		RedisTemplate<Long, RedisTokenDto> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(redisConnectionFactory());
-		redisTemplate.setKeySerializer(new StringRedisSerializer());
-		redisTemplate.setValueSerializer(new StringRedisSerializer());
+		redisTemplate.setKeySerializer(new Jackson2JsonRedisSerializer<>(Long.class));
+		redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(RedisTokenDto.class));
 		return redisTemplate;
 	}
 }
