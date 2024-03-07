@@ -49,20 +49,12 @@ public class TokenLoginService implements LoginService {
 		if (app.get().isMembership() && !user.get().isMembership()) {
 			throw new IllegalArgumentException("멤버쉽이 필요한 서비스입니다.");
 		}
-		Optional<UserDeviceApps> userDeviceApp =
-			userDeviceAppsRepository.findByUserIdAndDevice(user.get().getId(), dto.getDevice());
-		Long userDeviceAppId;
-		if (userDeviceApp.isEmpty()) {
-			userDeviceAppId = userDeviceAppsRepository.insertUserDeviceApps(UserDeviceApps
-				.builder()
-				.userId(user.get().getId())
-				.appId(app.get().getId())
-				.device(dto.getDevice())
-				.build()
-			);
-		} else {
-			userDeviceAppId = userDeviceApp.get().getId();
-		}
+		Long userDeviceAppId = userDeviceAppsRepository.insertUserDeviceApps(UserDeviceApps
+			.builder()
+			.userId(user.get().getId())
+			.appId(app.get().getId())
+			.device(dto.getDevice())
+			.build());
 		String token = TokenUtil.createNewToken();
 		redisRepository.set(userDeviceAppId, new RedisTokenDto(token, user.get().getId()));
 		return new LoginResponse(token, userDeviceAppId);
