@@ -1,6 +1,6 @@
 package com.market.user;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.stream.Stream;
@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.market.global.define.HeaderKey;
 import com.market.global.error.ErrorCode;
 import com.market.global.error.ErrorController;
 import com.market.user.controller.UserController;
@@ -127,12 +128,55 @@ public class UserControllerTest {
 			.andExpect(jsonPath("$.code").value(ErrorCode.BAD_REQUEST.name()));
 	}
 
-	@DisplayName("로그인 실패_존재하지 않는 회원")
+	@DisplayName("로그인 실패_로그인 정보 틀림")
 	@Test
 	public void notFoundUserLogin() throws Exception {
 		// given
 		final String url = "/users/login";
-		doThrow(new IllegalArgumentException("존재하지 않는 회원입니다."))
+		doThrow(new IllegalArgumentException("로그인 정보가 올바르지 않습니다."))
+			.when(loginService).login(any(SignInRequestDto.class));
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.post(url)
+				.content(objectMapper.writeValueAsString(signInRequestDto()))
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		// then
+		resultActions.andExpect(status().isInternalServerError())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()));
+	}
+
+	@DisplayName("로그인 실패_존재하지 않는 앱")
+	@Test
+	public void notFoundAppLogin() throws Exception {
+		// given
+		final String url = "/users/login";
+		doThrow(new IllegalArgumentException("존재하지 않는 앱입니다."))
+			.when(loginService).login(any(SignInRequestDto.class));
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.post(url)
+				.content(objectMapper.writeValueAsString(SignInRequestDto.builder()
+					.email("test@test.com")
+					.password("testtest12!")
+					.appName("Couping")
+					.device("iPhone13-aa")
+					.build()))
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		// then
+		resultActions.andExpect(status().isInternalServerError())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()));
+	}
+
+	@DisplayName("로그인 실패_멤버쉽이 필요한 서비스")
+	@Test
+	public void noneMembershipUserLogin() throws Exception {
+		// given
+		final String url = "/users/login";
+		doThrow(new IllegalArgumentException("멤버쉽이 필요한 서비스입니다."))
 			.when(loginService).login(any(SignInRequestDto.class));
 		// when
 		final ResultActions resultActions = mockMvc.perform(
@@ -161,16 +205,15 @@ public class UserControllerTest {
 		resultActions.andExpect(status().isOk());
 	}
 
-	@DisplayName("인증 실패_잘못된 헤더 값")
+	@DisplayName("로그아웃 성공")
 	@Test
-	public void invalidHeaderAuthTest() throws Exception {
+	public void successLogout() throws Exception {
 		// given
-		final String url = "/users/login";
+		final String url = "/users/logout";
 		// when
 		final ResultActions resultActions = mockMvc.perform(
-			MockMvcRequestBuilders.post(url)
-				.content(objectMapper.writeValueAsString(signInRequestDto()))
-				.contentType(MediaType.APPLICATION_JSON)
+			MockMvcRequestBuilders.get(url)
+				.header(HeaderKey.USER_DEVICE_APPS_ID, 1)
 		);
 		// then
 		resultActions.andExpect(status().isOk());
@@ -189,6 +232,8 @@ public class UserControllerTest {
 		return SignInRequestDto.builder()
 			.email("test@test.com")
 			.password("testtest12!")
+			.appName("Coupang")
+			.device("iPhone13-aa")
 			.build();
 	}
 

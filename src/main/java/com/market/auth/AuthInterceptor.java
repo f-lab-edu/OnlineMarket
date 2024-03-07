@@ -29,7 +29,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 		String token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
 			.orElseThrow(UnauthorizedException::new);
-		Long userDeviceAppId = Long.parseLong(Optional.ofNullable(request.getHeader(HeaderKey.USER_DEVICE_APP_ID))
+		Long userDeviceAppId = Long.parseLong(Optional.ofNullable(request.getHeader(HeaderKey.USER_DEVICE_APPS_ID))
 			.orElseThrow(UnauthorizedException::new));
 		if (token.startsWith(HeaderKey.BEARER)) {
 			token = token.replace(HeaderKey.BEARER, "");

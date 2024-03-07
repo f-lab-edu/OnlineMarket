@@ -37,7 +37,7 @@ public class UserController {
 	}
 
 	@GetMapping("/logout")
-	public void login(@RequestHeader(HeaderKey.USER_DEVICE_APP_ID) Long userDeviceAppsId) {
+	public void login(@RequestHeader(HeaderKey.USER_DEVICE_APPS_ID) Long userDeviceAppsId) {
 		loginService.logout(userDeviceAppsId);
 	}
 }
