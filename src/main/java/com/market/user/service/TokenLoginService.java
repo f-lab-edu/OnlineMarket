@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.market.app.domain.App;
 import com.market.app.repository.AppRepository;
@@ -33,6 +34,7 @@ public class TokenLoginService implements LoginService {
 		this.userDeviceAppsRepository = userAppRepository;
 	}
 
+	@Transactional
 	@Override
 	public LoginResponse login(SignInRequestDto dto) {
 		User loginUser = dto.toEntity();
@@ -64,5 +66,12 @@ public class TokenLoginService implements LoginService {
 		String token = TokenUtil.createNewToken();
 		redisRepository.set(userDeviceAppId, new RedisTokenDto(token, user.get().getId()));
 		return new LoginResponse(token, userDeviceAppId);
+	}
+
+	@Transactional
+	@Override
+	public void logout(Long userDeviceAppsId) {
+		redisRepository.delete(userDeviceAppsId);
+		userDeviceAppsRepository.deleteUserDeviceAppsById(userDeviceAppsId);
 	}
 }

@@ -17,4 +17,9 @@
 		INSERT INTO UserDeviceApps (userId, device, appId)
 		VALUES (#{userId}, #{device}, #{appId})
 	</insert>
+	<delete id="deleteUserDeviceAppsById">
+		DELETE
+		FROM UserDeviceApps
+		WHERE id = #{id}
+	</delete>
 </mapper>

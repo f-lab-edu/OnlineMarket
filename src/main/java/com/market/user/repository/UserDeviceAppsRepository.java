@@ -13,4 +13,6 @@ public interface UserDeviceAppsRepository {
 	Optional<UserDeviceApps> findByUserIdAndDevice(Long userId, String device);
 
 	Long insertUserDeviceApps(UserDeviceApps userDeviceApps);
+
+	void deleteUserDeviceAppsById(Long id);
 }

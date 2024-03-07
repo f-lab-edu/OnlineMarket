@@ -23,4 +23,9 @@ public class RedisTemplateRepository implements RedisRepository {
 	public void set(Long key, RedisTokenDto value) {
 		redisTemplate.opsForValue().set(key, value);
 	}
+
+	@Override
+	public void delete(Long key) {
+		redisTemplate.delete(key);
+	}
 }

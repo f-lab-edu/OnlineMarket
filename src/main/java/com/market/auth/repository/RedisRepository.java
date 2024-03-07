@@ -8,4 +8,6 @@ public interface RedisRepository {
 	Optional<RedisTokenDto> get(Long key);
 
 	void set(Long key, RedisTokenDto value);
+
+	void delete(Long key);
 }
