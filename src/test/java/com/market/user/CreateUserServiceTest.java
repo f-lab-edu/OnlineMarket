@@ -16,14 +16,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.market.application.domain.User;
 import com.market.application.dto.SignUpRequestDto;
 import com.market.application.service.CreateUserService;
-import com.market.repository.mapper.UserMapper;
+import com.market.repository.implementation.UserRepositoryImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class CreateUserServiceTest {
 	@InjectMocks
 	private CreateUserService createUserService;
 	@Mock
-	private UserMapper userRepository;
+	private UserRepositoryImpl userRepository;
 	private final String email = "test@test.com";
 
 	@DisplayName("회원가입 실패_이미 회원 존재")
@@ -31,7 +31,7 @@ public class CreateUserServiceTest {
 	public void isDuplicatedUserSignUp() {
 		// given
 		SignUpRequestDto dto = signUpRequestDto();
-		User user = dto.toEntity();
+		User user = dto.toDomain();
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 		// when
 		final RuntimeException result = assertThrows(IllegalArgumentException.class,

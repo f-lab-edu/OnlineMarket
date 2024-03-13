@@ -8,14 +8,14 @@ import com.market.application.dto.LoginResponseDto;
 import com.market.application.dto.SignInRequestDto;
 import com.market.global.util.TokenUtil;
 import com.market.repository.interfaces.RedisRepository;
-import com.market.repository.mapper.UserMapper;
+import com.market.repository.interfaces.UserRepository;
 
 @Service
 public class TokenLoginService implements LoginService {
-	private final UserMapper userRepository;
+	private final UserRepository userRepository;
 	private final RedisRepository redisRepository;
 
-	public TokenLoginService(UserMapper userRepository,
+	public TokenLoginService(@Qualifier("userRepositoryImpl") UserRepository userRepository,
 		@Qualifier("redisTemplateMapper") RedisRepository redisRepository) {
 		this.userRepository = userRepository;
 		this.redisRepository = redisRepository;
@@ -23,7 +23,7 @@ public class TokenLoginService implements LoginService {
 
 	@Override
 	public LoginResponseDto login(SignInRequestDto dto) {
-		User user = dto.toEntity();
+		User user = dto.toDomain();
 		if (userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword()).isEmpty()) {
 			throw new IllegalArgumentException("로그인 정보가 올바르지 않습니다.");
 		}

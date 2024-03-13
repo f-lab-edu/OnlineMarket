@@ -14,7 +14,7 @@ public class SignInRequestDto {
 	@NotBlank
 	private String password;
 
-	public User toEntity() {
+	public User toDomain() {
 		return User.builder()
 			.email(this.email)
 			.password(this.password)

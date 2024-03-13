@@ -18,8 +18,8 @@ import com.market.application.dto.LoginResponseDto;
 import com.market.application.dto.SignInRequestDto;
 import com.market.application.service.TokenLoginService;
 import com.market.global.util.TokenUtil;
+import com.market.repository.implementation.UserRepositoryImpl;
 import com.market.repository.mapper.RedisTemplateMapper;
-import com.market.repository.mapper.UserMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class TokenLoginServiceTest {
@@ -28,7 +28,7 @@ public class TokenLoginServiceTest {
 	@Mock
 	private RedisTemplateMapper redisRepository;
 	@Mock
-	private UserMapper userRepository;
+	private UserRepositoryImpl userRepository;
 	@Mock
 	private TokenUtil tokenUtil;
 	private final String email = "tset@test.com";
@@ -38,7 +38,7 @@ public class TokenLoginServiceTest {
 	@Test
 	public void notFoundUserSignIn() {
 		// given
-		User user = signInRequestDto().toEntity();
+		User user = signInRequestDto().toDomain();
 		when(userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword())).thenReturn(Optional.empty());
 		// when
 		final RuntimeException result = assertThrows(IllegalArgumentException.class,
@@ -52,7 +52,7 @@ public class TokenLoginServiceTest {
 	public void successSignIn() {
 		// given
 		SignInRequestDto dto = signInRequestDto();
-		User user = dto.toEntity();
+		User user = dto.toDomain();
 		when(userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword())).thenReturn(Optional.of(user));
 		// when
 		LoginResponseDto response = loginService.login(dto);

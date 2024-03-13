@@ -1,7 +1,7 @@
 package com.market.application.dto;
 
-import com.market.global.annotation.Password;
 import com.market.application.domain.User;
+import com.market.global.annotation.Password;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -23,7 +23,7 @@ public class SignUpRequestDto {
 	@Pattern(regexp = "[0-9]{11}")
 	private String tel;
 
-	public User toEntity() {
+	public User toDomain() {
 		return User.builder()
 			.name(this.name)
 			.email(this.email)

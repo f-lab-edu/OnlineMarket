@@ -1,6 +1,7 @@
 package com.market.application.domain;
 
 import com.market.global.util.SHA256Util;
+import com.market.repository.dto.UserDto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -20,5 +21,9 @@ public class User {
 		this.password = SHA256Util.encryptSHA256(password);
 		this.name = name;
 		this.tel = tel;
+	}
+
+	public UserDto toEntity() {
+		return new UserDto(this.getId(), this.getEmail(), this.getPassword(), this.getName(), this.getTel());
 	}
 }

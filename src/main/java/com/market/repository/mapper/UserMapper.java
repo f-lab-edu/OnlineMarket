@@ -3,16 +3,14 @@ package com.market.repository.mapper;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
-import com.market.application.domain.User;
+import com.market.repository.dto.UserDto;
 
-@Repository
 @Mapper
 public interface UserMapper {
-	void insertUser(User user);
+	void insertUser(UserDto user);
 
-	Optional<User> findByEmail(String email);
+	Optional<UserDto> findByEmail(String email);
 
-	Optional<User> findByEmailAndPassword(String email, String password);
+	Optional<UserDto> findByEmailAndPassword(String email, String password);
 }
