@@ -1,4 +1,4 @@
-package com.market.user.controller;
+package com.market.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.market.user.controller.dto.SignInRequestDto;
-import com.market.user.controller.dto.SignUpRequestDto;
-import com.market.user.service.CreateUserService;
-import com.market.user.service.LoginService;
+import com.market.application.dto.LoginResponseDto;
+import com.market.application.dto.SignInRequestDto;
+import com.market.application.dto.SignUpRequestDto;
+import com.market.application.service.CreateUserService;
+import com.market.application.service.LoginService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	public LoginResponse login(@Valid @RequestBody final SignInRequestDto dto) {
+	public LoginResponseDto login(@Valid @RequestBody final SignInRequestDto dto) {
 		return loginService.login(dto);
 	}
 }

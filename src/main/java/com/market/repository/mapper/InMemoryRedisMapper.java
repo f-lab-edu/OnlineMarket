@@ -1,4 +1,4 @@
-package com.market.auth.repository;
+package com.market.repository.mapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,8 +6,10 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
+import com.market.repository.interfaces.RedisRepository;
+
 @Repository
-public class InMemoryRedisRepository implements RedisRepository {
+public class InMemoryRedisMapper implements RedisRepository {
 	private final Map<String, String> data = new HashMap<>();
 
 	@Override

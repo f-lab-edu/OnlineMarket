@@ -13,22 +13,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.market.auth.repository.RedisTemplateRepository;
-import com.market.user.controller.LoginResponse;
-import com.market.user.controller.dto.SignInRequestDto;
-import com.market.user.domain.User;
-import com.market.user.repository.UserRepository;
-import com.market.user.service.TokenLoginService;
-import com.market.util.TokenUtil;
+import com.market.application.domain.User;
+import com.market.application.dto.LoginResponseDto;
+import com.market.application.dto.SignInRequestDto;
+import com.market.application.service.TokenLoginService;
+import com.market.global.util.TokenUtil;
+import com.market.repository.mapper.RedisTemplateMapper;
+import com.market.repository.mapper.UserMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class TokenLoginServiceTest {
 	@InjectMocks
 	private TokenLoginService loginService;
 	@Mock
-	private RedisTemplateRepository redisRepository;
+	private RedisTemplateMapper redisRepository;
 	@Mock
-	private UserRepository userRepository;
+	private UserMapper userRepository;
 	@Mock
 	private TokenUtil tokenUtil;
 	private final String email = "tset@test.com";
@@ -55,7 +55,7 @@ public class TokenLoginServiceTest {
 		User user = dto.toEntity();
 		when(userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword())).thenReturn(Optional.of(user));
 		// when
-		LoginResponse response = loginService.login(dto);
+		LoginResponseDto response = loginService.login(dto);
 		// then
 		assertThat(response.getToken()).isNotNull();
 	}

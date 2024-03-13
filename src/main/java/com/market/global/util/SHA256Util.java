@@ -1,4 +1,4 @@
-package com.market.util;
+package com.market.global.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -1,4 +1,4 @@
-package com.market.user.controller;
+package com.market.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class LoginResponse {
+public class LoginResponseDto {
 	private String token;
 }

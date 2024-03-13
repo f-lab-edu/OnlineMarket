@@ -1,4 +1,4 @@
-package com.market.auth;
+package com.market.global.interceptor;
 
 import java.util.Optional;
 
@@ -8,9 +8,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.market.auth.exception.UnauthorizedException;
-import com.market.auth.repository.RedisRepository;
 import com.market.global.define.HeaderKey;
+import com.market.global.exception.UnauthorizedException;
+import com.market.repository.interfaces.RedisRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +20,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 	private final RedisRepository redisRepository;
 
 	@Autowired
-	public AuthInterceptor(@Qualifier("redisTemplateRepository") RedisRepository redisRepository) {
+	public AuthInterceptor(@Qualifier("redisTemplateMapper") RedisRepository redisRepository) {
 		this.redisRepository = redisRepository;
 	}
 

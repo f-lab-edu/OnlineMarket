@@ -1,6 +1,6 @@
-package com.market.user.domain;
+package com.market.application.domain;
 
-import com.market.util.SHA256Util;
+import com.market.global.util.SHA256Util;
 
 import lombok.Builder;
 import lombok.Getter;

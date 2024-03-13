@@ -1,6 +1,6 @@
-package com.market.user.controller.dto;
+package com.market.application.dto;
 
-import com.market.user.domain.User;
+import com.market.application.domain.User;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;

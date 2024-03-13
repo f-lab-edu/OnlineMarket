@@ -1,17 +1,17 @@
-package com.market.user.service;
+package com.market.application.service;
 
 import org.springframework.stereotype.Service;
 
-import com.market.user.controller.dto.SignUpRequestDto;
-import com.market.user.domain.User;
-import com.market.user.repository.UserRepository;
+import com.market.application.domain.User;
+import com.market.application.dto.SignUpRequestDto;
+import com.market.repository.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class CreateUserService {
-	private final UserRepository userRepository;
+	private final UserMapper userRepository;
 
 	public void signUp(SignUpRequestDto dto) {
 		User user = dto.toEntity();

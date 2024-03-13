@@ -24,11 +24,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.market.global.error.ErrorCode;
 import com.market.global.error.ErrorController;
-import com.market.user.controller.UserController;
-import com.market.user.controller.dto.SignInRequestDto;
-import com.market.user.controller.dto.SignUpRequestDto;
-import com.market.user.service.CreateUserService;
-import com.market.user.service.LoginService;
+import com.market.controller.UserController;
+import com.market.application.dto.SignInRequestDto;
+import com.market.application.dto.SignUpRequestDto;
+import com.market.application.service.CreateUserService;
+import com.market.application.service.LoginService;
 
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {

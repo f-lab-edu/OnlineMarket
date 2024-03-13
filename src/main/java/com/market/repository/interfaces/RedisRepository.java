@@ -1,4 +1,4 @@
-package com.market.auth.repository;
+package com.market.repository.interfaces;
 
 import java.util.Optional;
 

@@ -13,17 +13,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.market.user.controller.dto.SignUpRequestDto;
-import com.market.user.domain.User;
-import com.market.user.repository.UserRepository;
-import com.market.user.service.CreateUserService;
+import com.market.application.domain.User;
+import com.market.application.dto.SignUpRequestDto;
+import com.market.application.service.CreateUserService;
+import com.market.repository.mapper.UserMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class CreateUserServiceTest {
 	@InjectMocks
 	private CreateUserService createUserService;
 	@Mock
-	private UserRepository userRepository;
+	private UserMapper userRepository;
 	private final String email = "test@test.com";
 
 	@DisplayName("회원가입 실패_이미 회원 존재")

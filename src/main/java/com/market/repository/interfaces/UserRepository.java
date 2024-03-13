@@ -1,14 +1,9 @@
-package com.market.user.repository;
+package com.market.repository.interfaces;
 
 import java.util.Optional;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import com.market.application.domain.User;
 
-import com.market.user.domain.User;
-
-@Repository
-@Mapper
 public interface UserRepository {
 	void insertUser(User user);
 

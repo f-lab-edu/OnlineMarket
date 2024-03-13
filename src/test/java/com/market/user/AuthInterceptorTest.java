@@ -14,11 +14,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 
-import com.market.auth.AuthInterceptor;
-import com.market.auth.exception.UnauthorizedException;
-import com.market.auth.repository.RedisTemplateRepository;
 import com.market.global.define.HeaderKey;
-import com.market.util.TokenUtil;
+import com.market.global.exception.UnauthorizedException;
+import com.market.global.interceptor.AuthInterceptor;
+import com.market.global.util.TokenUtil;
+import com.market.repository.mapper.RedisTemplateMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,7 +28,7 @@ public class AuthInterceptorTest {
 	@InjectMocks
 	private AuthInterceptor authInterceptor;
 	@Mock
-	private RedisTemplateRepository redisRepository;
+	private RedisTemplateMapper redisRepository;
 	@Mock
 	private HttpServletRequest request;
 	@Mock

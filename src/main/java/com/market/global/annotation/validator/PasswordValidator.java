@@ -1,8 +1,8 @@
-package com.market.annotation.validator;
+package com.market.global.annotation.validator;
 
 import java.util.regex.Pattern;
 
-import com.market.annotation.Password;
+import com.market.global.annotation.Password;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
