@@ -3,18 +3,18 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.market.repository.mapper.UserMapper">
-	<insert id="insertUser" parameterType="UserDto">
-		INSERT INTO USER2 (email, password, name, tel)
+	<insert id="insertUser" parameterType="com.market.repository.dto.UserDto">
+		INSERT INTO User (email, password, name, tel)
 		VALUES (#{email}, #{password}, #{name}, #{tel})
 	</insert>
-	<select id="findByEmail" resultType="UserDto">
+	<select id="findByEmail" resultType="com.market.repository.dto.UserDto">
 		SELECT id, email, password, name, tel
-		FROM USER2
+		FROM User
 		WHERE email = #{email}
 	</select>
-	<select id="findByEmailAndPassword" resultType="UserDto">
+	<select id="findByEmailAndPassword" resultType="com.market.repository.dto.UserDto">
 		SELECT id, email, password, name, tel
-		FROM USER
+		FROM User
 		WHERE email = #{email}
 		  AND password = #{password}
 	</select>

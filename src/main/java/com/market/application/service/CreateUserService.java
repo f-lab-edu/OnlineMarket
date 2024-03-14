@@ -1,17 +1,19 @@
 package com.market.application.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.market.application.domain.User;
 import com.market.application.service.dto.SignUpRequestDto;
 import com.market.repository.interfaces.UserRepository;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @Service
 public class CreateUserService {
 	private final UserRepository userRepository;
+
+	public CreateUserService(@Qualifier("userRepositoryImpl") UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	public void signUp(SignUpRequestDto dto) {
 		User user = dto.toDomain();
