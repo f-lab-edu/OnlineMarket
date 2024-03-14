@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.market.application.dto.LoginResponseDto;
-import com.market.application.dto.SignInRequestDto;
-import com.market.application.dto.SignUpRequestDto;
 import com.market.application.service.CreateUserService;
 import com.market.application.service.LoginService;
+import com.market.application.service.dto.LoginResponseDto;
+import com.market.controller.dto.LoginResponse;
+import com.market.controller.dto.SignInRequest;
+import com.market.controller.dto.SignUpRequest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +26,13 @@ public class UserController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public void signUp(@Valid @RequestBody final SignUpRequestDto dto) {
-		createUserService.signUp(dto);
+	public void signUp(@Valid @RequestBody final SignUpRequest request) {
+		createUserService.signUp(request.toDto());
 	}
 
 	@PostMapping("/login")
-	public LoginResponseDto login(@Valid @RequestBody final SignInRequestDto dto) {
-		return loginService.login(dto);
+	public LoginResponse login(@Valid @RequestBody final SignInRequest request) {
+		LoginResponseDto dto = loginService.login(request.toDto());
+		return new LoginResponse(dto.getToken());
 	}
 }

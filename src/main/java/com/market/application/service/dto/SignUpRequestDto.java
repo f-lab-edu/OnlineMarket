@@ -1,26 +1,16 @@
-package com.market.application.dto;
+package com.market.application.service.dto;
 
 import com.market.application.domain.User;
-import com.market.global.annotation.Password;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@Builder
+@AllArgsConstructor
 public class SignUpRequestDto {
-	@NotBlank
 	private String name;
-	@NotBlank
-	@Email
 	private String email;
-	@Password
 	private String password;
-	@NotBlank
-	@Pattern(regexp = "[0-9]{11}")
 	private String tel;
 
 	public User toDomain() {

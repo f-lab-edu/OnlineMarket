@@ -14,9 +14,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.market.application.domain.User;
-import com.market.application.dto.LoginResponseDto;
-import com.market.application.dto.SignInRequestDto;
 import com.market.application.service.TokenLoginService;
+import com.market.application.service.dto.LoginResponseDto;
+import com.market.application.service.dto.SignInRequestDto;
 import com.market.global.util.TokenUtil;
 import com.market.repository.implementation.UserRepositoryImpl;
 import com.market.repository.mapper.RedisTemplateMapper;
@@ -61,9 +61,6 @@ public class TokenLoginServiceTest {
 	}
 
 	private SignInRequestDto signInRequestDto() {
-		return SignInRequestDto.builder()
-			.email(email)
-			.password(password)
-			.build();
+		return new SignInRequestDto(email, password);
 	}
 }

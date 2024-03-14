@@ -14,8 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.market.application.domain.User;
-import com.market.application.dto.SignUpRequestDto;
 import com.market.application.service.CreateUserService;
+import com.market.application.service.dto.SignUpRequestDto;
 import com.market.repository.implementation.UserRepositoryImpl;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,11 +52,6 @@ public class CreateUserServiceTest {
 	}
 
 	private SignUpRequestDto signUpRequestDto() {
-		return SignUpRequestDto.builder()
-			.email(email)
-			.name("테스트")
-			.password("test")
-			.tel("01012341234")
-			.build();
+		return new SignUpRequestDto("테스트", email, "test", "01012341234");
 	}
 }

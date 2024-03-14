@@ -3,7 +3,7 @@ package com.market.application.service;
 import org.springframework.stereotype.Service;
 
 import com.market.application.domain.User;
-import com.market.application.dto.SignUpRequestDto;
+import com.market.application.service.dto.SignUpRequestDto;
 import com.market.repository.interfaces.UserRepository;
 
 import lombok.RequiredArgsConstructor;
