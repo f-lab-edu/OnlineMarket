@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import com.market.repository.interfaces.RedisRepository;
+import com.market.application.repository.interfaces.RedisRepository;
 
 @Repository
 public class InMemoryRedisMapper implements RedisRepository {

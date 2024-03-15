@@ -1,7 +1,7 @@
 package com.market.controller.dto;
 
 import com.market.application.service.dto.SignUpRequestDto;
-import com.market.global.annotation.Password;
+import com.market.controller.dto.annotation.Password;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

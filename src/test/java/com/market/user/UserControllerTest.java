@@ -27,11 +27,11 @@ import com.market.application.service.LoginService;
 import com.market.application.service.dto.LoginResponseDto;
 import com.market.application.service.dto.SignInRequestDto;
 import com.market.application.service.dto.SignUpRequestDto;
+import com.market.controller.ErrorController;
 import com.market.controller.UserController;
 import com.market.controller.dto.SignInRequest;
 import com.market.controller.dto.SignUpRequest;
 import com.market.global.error.ErrorCode;
-import com.market.global.error.ErrorController;
 
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {

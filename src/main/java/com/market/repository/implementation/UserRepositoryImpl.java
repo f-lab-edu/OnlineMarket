@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import com.market.application.domain.User;
+import com.market.application.repository.interfaces.UserRepository;
 import com.market.repository.dto.UserDto;
-import com.market.repository.interfaces.UserRepository;
 import com.market.repository.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;

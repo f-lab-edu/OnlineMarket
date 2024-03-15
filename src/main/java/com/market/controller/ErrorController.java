@@ -1,4 +1,4 @@
-package com.market.global.error;
+package com.market.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.market.global.error.ErrorCode;
+import com.market.global.error.ErrorResponse;
 import com.market.global.exception.UnauthorizedException;
 
 @RestControllerAdvice

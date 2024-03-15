@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.market.application.domain.User;
+import com.market.application.repository.interfaces.RedisRepository;
+import com.market.application.repository.interfaces.UserRepository;
 import com.market.application.service.dto.LoginResponseDto;
 import com.market.application.service.dto.SignInRequestDto;
 import com.market.global.util.TokenUtil;
-import com.market.repository.interfaces.RedisRepository;
-import com.market.repository.interfaces.UserRepository;
 
 @Service
 public class TokenLoginService implements LoginService {

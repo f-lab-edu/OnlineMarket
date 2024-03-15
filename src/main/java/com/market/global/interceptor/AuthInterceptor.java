@@ -8,9 +8,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.market.application.repository.interfaces.RedisRepository;
 import com.market.global.define.HeaderKey;
 import com.market.global.exception.UnauthorizedException;
-import com.market.repository.interfaces.RedisRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

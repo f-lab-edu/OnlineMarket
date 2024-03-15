@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.market.application.domain.User;
+import com.market.application.repository.interfaces.UserRepository;
 import com.market.application.service.dto.SignUpRequestDto;
-import com.market.repository.interfaces.UserRepository;
 
 @Service
 public class CreateUserService {

@@ -1,4 +1,4 @@
-package com.market.repository.interfaces;
+package com.market.application.repository.interfaces;
 
 import java.util.Optional;
 
