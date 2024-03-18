@@ -13,17 +13,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.market.user.controller.dto.SignUpRequestDto;
-import com.market.user.domain.User;
-import com.market.user.repository.UserRepository;
-import com.market.user.service.CreateUserService;
+import com.market.application.domain.User;
+import com.market.application.service.CreateUserService;
+import com.market.application.service.dto.SignUpRequestDto;
+import com.market.repository.implementation.UserRepositoryImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class CreateUserServiceTest {
 	@InjectMocks
 	private CreateUserService createUserService;
 	@Mock
-	private UserRepository userRepository;
+	private UserRepositoryImpl userRepository;
 	private final String email = "test@test.com";
 
 	@DisplayName("회원가입 실패_이미 회원 존재")
@@ -31,7 +31,7 @@ public class CreateUserServiceTest {
 	public void isDuplicatedUserSignUp() {
 		// given
 		SignUpRequestDto dto = signUpRequestDto();
-		User user = dto.toEntity();
+		User user = dto.toDomain();
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 		// when
 		final RuntimeException result = assertThrows(IllegalArgumentException.class,
@@ -52,11 +52,6 @@ public class CreateUserServiceTest {
 	}
 
 	private SignUpRequestDto signUpRequestDto() {
-		return SignUpRequestDto.builder()
-			.email(email)
-			.name("테스트")
-			.password("test")
-			.tel("01012341234")
-			.build();
+		return new SignUpRequestDto("테스트", email, "test", "01012341234");
 	}
 }

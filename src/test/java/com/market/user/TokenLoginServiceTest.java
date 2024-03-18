@@ -13,22 +13,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.market.auth.repository.RedisTemplateRepository;
-import com.market.user.controller.LoginResponse;
-import com.market.user.controller.dto.SignInRequestDto;
-import com.market.user.domain.User;
-import com.market.user.repository.UserRepository;
-import com.market.user.service.TokenLoginService;
-import com.market.util.TokenUtil;
+import com.market.application.domain.User;
+import com.market.application.service.TokenLoginService;
+import com.market.application.service.dto.LoginResponseDto;
+import com.market.application.service.dto.SignInRequestDto;
+import com.market.global.util.TokenUtil;
+import com.market.repository.implementation.UserRepositoryImpl;
+import com.market.repository.mapper.RedisTemplateMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class TokenLoginServiceTest {
 	@InjectMocks
 	private TokenLoginService loginService;
 	@Mock
-	private RedisTemplateRepository redisRepository;
+	private RedisTemplateMapper redisRepository;
 	@Mock
-	private UserRepository userRepository;
+	private UserRepositoryImpl userRepository;
 	@Mock
 	private TokenUtil tokenUtil;
 	private final String email = "tset@test.com";
@@ -38,7 +38,7 @@ public class TokenLoginServiceTest {
 	@Test
 	public void notFoundUserSignIn() {
 		// given
-		User user = signInRequestDto().toEntity();
+		User user = signInRequestDto().toDomain();
 		when(userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword())).thenReturn(Optional.empty());
 		// when
 		final RuntimeException result = assertThrows(IllegalArgumentException.class,
@@ -52,18 +52,15 @@ public class TokenLoginServiceTest {
 	public void successSignIn() {
 		// given
 		SignInRequestDto dto = signInRequestDto();
-		User user = dto.toEntity();
+		User user = dto.toDomain();
 		when(userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword())).thenReturn(Optional.of(user));
 		// when
-		LoginResponse response = loginService.login(dto);
+		LoginResponseDto response = loginService.login(dto);
 		// then
 		assertThat(response.getToken()).isNotNull();
 	}
 
 	private SignInRequestDto signInRequestDto() {
-		return SignInRequestDto.builder()
-			.email(email)
-			.password(password)
-			.build();
+		return new SignInRequestDto(email, password);
 	}
 }
