@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.market.application.domain.User;
 import com.market.application.service.CreateUserService;
 import com.market.application.service.dto.SignUpRequestDto;
+import com.market.global.exception.application.UserCreateFailException;
 import com.market.repository.implementation.UserRepositoryImpl;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,10 +35,10 @@ public class CreateUserServiceTest {
 		User user = dto.toDomain();
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 		// when
-		final RuntimeException result = assertThrows(IllegalArgumentException.class,
+		final UserCreateFailException result = assertThrows(UserCreateFailException.class,
 			() -> createUserService.signUp(dto));
 		// then
-		assertThat(result.getMessage()).isEqualTo("이미 등록된 회원입니다");
+		assertThat(result.getError().getCode()).isEqualTo("USER_CREATE_FAIL");
 	}
 
 	@DisplayName("회원가입 성공")
