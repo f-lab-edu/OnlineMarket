@@ -31,7 +31,7 @@ import com.market.controller.ErrorController;
 import com.market.controller.UserController;
 import com.market.controller.dto.SignInRequest;
 import com.market.controller.dto.SignUpRequest;
-import com.market.global.error.ErrorCode;
+import com.market.global.exception.errorCode.ControllerErrorCode;
 
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
@@ -72,7 +72,7 @@ public class UserControllerTest {
 		// then
 		resultActions.andExpect(status().isBadRequest())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.code").value(ErrorCode.BAD_REQUEST.name()));
+			.andExpect(jsonPath("$.code").value(ControllerErrorCode.BAD_REQUEST.name()));
 	}
 
 	@DisplayName("회원가입 실패_이미 등록된 회원")
@@ -91,7 +91,7 @@ public class UserControllerTest {
 		// then
 		resultActions.andExpect(status().isInternalServerError())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()));
+			.andExpect(jsonPath("$.code").value(ControllerErrorCode.INTERNAL_SERER_ERROR.name()));
 	}
 
 	@DisplayName("회원가입 성공")
@@ -127,7 +127,7 @@ public class UserControllerTest {
 		// then
 		resultActions.andExpect(status().isBadRequest())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.code").value(ErrorCode.BAD_REQUEST.name()));
+			.andExpect(jsonPath("$.code").value(ControllerErrorCode.BAD_REQUEST.name()));
 	}
 
 	@DisplayName("로그인 실패_존재하지 않는 회원")
@@ -146,7 +146,7 @@ public class UserControllerTest {
 		// then
 		resultActions.andExpect(status().isInternalServerError())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.code").value(ErrorCode.INTERNAL_SERER_ERROR.name()));
+			.andExpect(jsonPath("$.code").value(ControllerErrorCode.INTERNAL_SERER_ERROR.name()));
 	}
 
 	@DisplayName("로그인 성공")

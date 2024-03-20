@@ -6,6 +6,11 @@ import org.springframework.stereotype.Service;
 import com.market.application.domain.User;
 import com.market.application.repository.interfaces.UserRepository;
 import com.market.application.service.dto.SignUpRequestDto;
+import com.market.global.exception.application.DuplicatedUserEmailException;
+import com.market.global.exception.application.UserCreateFailException;
+import com.market.global.exception.errorCode.ApplicationErrorCode;
+import com.market.global.exception.errorCode.RepositoryErrorCode;
+import com.market.global.exception.repository.UserInsertFailException;
 
 @Service
 public class CreateUserService {
@@ -17,10 +22,18 @@ public class CreateUserService {
 
 	public void signUp(SignUpRequestDto dto) {
 		User user = dto.toDomain();
-		if (isDuplicatedUser(user.getEmail())) {
-			throw new IllegalArgumentException("이미 등록된 회원입니다");
+		try {
+			if (isDuplicatedUser(user.getEmail())) {
+				throw new DuplicatedUserEmailException(ApplicationErrorCode.DUPLICATED_USER_EMAIL);
+			}
+			try {
+				userRepository.insertUser(user);
+			} catch (Exception e) {
+				throw new UserInsertFailException(RepositoryErrorCode.USER_INSERT_FAIL);
+			}
+		} catch (DuplicatedUserEmailException | UserInsertFailException e) {
+			throw new UserCreateFailException(ApplicationErrorCode.USER_CREATE_FAIL, e.getError().getMessage());
 		}
-		userRepository.insertUser(user);
 	}
 
 	private boolean isDuplicatedUser(String email) {

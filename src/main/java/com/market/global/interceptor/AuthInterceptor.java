@@ -10,7 +10,11 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.market.application.repository.interfaces.RedisRepository;
 import com.market.global.define.HeaderKey;
-import com.market.global.exception.UnauthorizedException;
+import com.market.global.exception.controller.EmptyAuthorizationHeaderException;
+import com.market.global.exception.controller.EmptyTokenException;
+import com.market.global.exception.controller.InvalidHeaderKeyException;
+import com.market.global.exception.controller.UnauthorizedException;
+import com.market.global.exception.errorCode.ControllerErrorCode;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,15 +29,20 @@ public class AuthInterceptor implements HandlerInterceptor {
 	}
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws
-		UnauthorizedException {
-		String token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
-			.orElseThrow(UnauthorizedException::new);
-		if (token.startsWith(HeaderKey.BEARER)) {
-			token = token.replace(HeaderKey.BEARER, "");
-			Optional.ofNullable(redisRepository.get(token)).orElseThrow(UnauthorizedException::new);
-		} else {
-			throw new UnauthorizedException();
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+		try {
+			String token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
+				.orElseThrow(
+					() -> new EmptyAuthorizationHeaderException(ControllerErrorCode.EMPTY_AUTHORIZATION_HEADER));
+			if (token.startsWith(HeaderKey.BEARER)) {
+				token = token.replace(HeaderKey.BEARER, "");
+				Optional.ofNullable(redisRepository.get(token))
+					.orElseThrow(() -> new EmptyTokenException(ControllerErrorCode.EMPTY_TOKEN));
+			} else {
+				throw new InvalidHeaderKeyException(ControllerErrorCode.INVALID_HEADER_KEY);
+			}
+		} catch (EmptyAuthorizationHeaderException | EmptyTokenException | InvalidHeaderKeyException e) {
+			throw new UnauthorizedException(ControllerErrorCode.UNAUTHORIZED, e.getError().getMessage());
 		}
 		return true;
 	}
