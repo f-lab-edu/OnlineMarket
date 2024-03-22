@@ -10,9 +10,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.market.application.repository.interfaces.RedisRepository;
 import com.market.global.define.HeaderKey;
-import com.market.webInterface.exception.EmptyAuthorizationHeaderException;
-import com.market.webInterface.exception.EmptyTokenException;
-import com.market.webInterface.exception.InvalidHeaderKeyException;
 import com.market.webInterface.exception.UnauthorizedException;
 import com.market.webInterface.exception.errorCode.WebInterfaceErrorCode;
 
@@ -30,19 +27,14 @@ public class AuthInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-		try {
-			String token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
-				.orElseThrow(
-					() -> new EmptyAuthorizationHeaderException(WebInterfaceErrorCode.EMPTY_AUTHORIZATION_HEADER));
-			if (token.startsWith(HeaderKey.BEARER)) {
-				token = token.replace(HeaderKey.BEARER, "");
-				Optional.ofNullable(redisRepository.get(token))
-					.orElseThrow(() -> new EmptyTokenException(WebInterfaceErrorCode.EMPTY_TOKEN));
-			} else {
-				throw new InvalidHeaderKeyException(WebInterfaceErrorCode.INVALID_HEADER_KEY);
-			}
-		} catch (EmptyAuthorizationHeaderException | EmptyTokenException | InvalidHeaderKeyException e) {
-			throw new UnauthorizedException(WebInterfaceErrorCode.UNAUTHORIZED, e.getError().getMessage());
+		String token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
+			.orElseThrow(() -> new UnauthorizedException(WebInterfaceErrorCode.UNAUTHORIZED));
+		if (token.startsWith(HeaderKey.BEARER)) {
+			token = token.replace(HeaderKey.BEARER, "");
+			Optional.ofNullable(redisRepository.get(token))
+				.orElseThrow(() -> new UnauthorizedException(WebInterfaceErrorCode.UNAUTHORIZED));
+		} else {
+			throw new UnauthorizedException(WebInterfaceErrorCode.UNAUTHORIZED);
 		}
 		return true;
 	}
