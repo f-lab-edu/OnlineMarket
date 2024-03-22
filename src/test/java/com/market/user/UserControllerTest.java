@@ -91,7 +91,7 @@ public class UserControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 		);
 		// then
-		resultActions.andExpect(status().isInternalServerError())
+		resultActions.andExpect(status().isBadRequest())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 			.andExpect(jsonPath("$.code").value(ApplicationErrorCode.DUPLICATED_USER_EMAIL.getCode()));
 	}
