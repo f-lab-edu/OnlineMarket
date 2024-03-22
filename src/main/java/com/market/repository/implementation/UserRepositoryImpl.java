@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import com.market.application.domain.dto.User;
 import com.market.application.repository.interfaces.UserRepository;
 import com.market.repository.entity.UserEntity;
+import com.market.repository.exception.UserInsertFailException;
+import com.market.repository.exception.errorCode.RepositoryErrorCode;
 import com.market.repository.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,11 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public void insertUser(User user) {
-		userMapper.insertUser(user.toEntity());
+		try {
+			userMapper.insertUser(user.toEntity());
+		} catch (Exception e) {
+			throw new UserInsertFailException(RepositoryErrorCode.USER_INSERT_FAIL);
+		}
 	}
 
 	@Override

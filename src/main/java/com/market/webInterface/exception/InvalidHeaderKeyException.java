@@ -7,8 +7,4 @@ public class InvalidHeaderKeyException extends WebInterfaceException {
 	public InvalidHeaderKeyException(ErrorCode error) {
 		super(error);
 	}
-
-	public InvalidHeaderKeyException(ErrorCode error, String detail) {
-		super(error, detail);
-	}
 }

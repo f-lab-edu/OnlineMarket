@@ -10,8 +10,4 @@ public class RepositoryException extends OnlineMarketBaseException {
 	public RepositoryException(ErrorCode error) {
 		super(error);
 	}
-
-	public RepositoryException(ErrorCode error, String detail) {
-		super(error, detail);
-	}
 }

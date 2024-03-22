@@ -10,8 +10,4 @@ public class DuplicatedUserEmailException extends ApplicationException {
 	public DuplicatedUserEmailException(ErrorCode error) {
 		super(error);
 	}
-
-	public DuplicatedUserEmailException(ErrorCode error, String detail) {
-		super(error, detail);
-	}
 }

@@ -10,8 +10,4 @@ public class UserInsertFailException extends RepositoryException {
 	public UserInsertFailException(ErrorCode error) {
 		super(error);
 	}
-
-	public UserInsertFailException(ErrorCode error, String detail) {
-		super(error, detail);
-	}
 }

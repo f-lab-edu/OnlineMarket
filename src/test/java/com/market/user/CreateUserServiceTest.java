@@ -14,7 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.market.application.domain.dto.User;
-import com.market.application.exception.UserCreateFailException;
+import com.market.application.exception.DuplicatedUserEmailException;
+import com.market.application.exception.base.ApplicationException;
 import com.market.application.usecase.CreateUserUseCase;
 import com.market.application.usecase.dto.SignUpRequestDto;
 import com.market.repository.implementation.UserRepositoryImpl;
@@ -35,10 +36,10 @@ public class CreateUserServiceTest {
 		User user = dto.toDomain();
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 		// when
-		final UserCreateFailException result = assertThrows(UserCreateFailException.class,
+		final ApplicationException result = assertThrows(DuplicatedUserEmailException.class,
 			() -> createUserUseCase.signUp(dto));
 		// then
-		assertThat(result.getError().getCode()).isEqualTo("USER_CREATE_FAIL");
+		assertThat(result.getError().getCode()).isEqualTo("DUPLICATED_USER_EMAIL");
 	}
 
 	@DisplayName("회원가입 성공")

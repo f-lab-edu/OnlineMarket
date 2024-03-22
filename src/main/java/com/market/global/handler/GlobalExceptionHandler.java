@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.market.application.exception.UserCreateFailException;
 import com.market.global.handler.dto.ErrorResponseDto;
 import com.market.webInterface.exception.UnauthorizedException;
 import com.market.webInterface.exception.errorCode.WebInterfaceErrorCode;

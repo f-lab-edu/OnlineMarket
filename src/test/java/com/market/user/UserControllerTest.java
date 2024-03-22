@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.market.application.exception.UserCreateFailException;
+import com.market.application.exception.DuplicatedUserEmailException;
 import com.market.application.exception.errorCode.ApplicationErrorCode;
 import com.market.application.usecase.CreateUserUseCase;
 import com.market.application.usecase.LoginUseCase;
@@ -82,7 +82,7 @@ public class UserControllerTest {
 	public void duplicatedUserSignUp() throws Exception {
 		// given
 		final String url = "/users";
-		doThrow(new UserCreateFailException(ApplicationErrorCode.USER_CREATE_FAIL))
+		doThrow(new DuplicatedUserEmailException(ApplicationErrorCode.DUPLICATED_USER_EMAIL))
 			.when(createUserUseCase).signUp(any(SignUpRequestDto.class));
 		// when
 		final ResultActions resultActions = mockMvc.perform(
@@ -93,7 +93,7 @@ public class UserControllerTest {
 		// then
 		resultActions.andExpect(status().isInternalServerError())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.code").value(ApplicationErrorCode.USER_CREATE_FAIL.getCode()));
+			.andExpect(jsonPath("$.code").value(ApplicationErrorCode.DUPLICATED_USER_EMAIL.getCode()));
 	}
 
 	@DisplayName("회원가입 성공")

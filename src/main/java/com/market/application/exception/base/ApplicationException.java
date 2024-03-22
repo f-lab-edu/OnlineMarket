@@ -10,8 +10,4 @@ public class ApplicationException extends OnlineMarketBaseException {
 	public ApplicationException(ErrorCode error) {
 		super(error);
 	}
-
-	public ApplicationException(ErrorCode error, String detail) {
-		super(error, detail);
-	}
 }

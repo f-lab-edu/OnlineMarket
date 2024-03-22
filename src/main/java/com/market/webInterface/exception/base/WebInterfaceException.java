@@ -10,8 +10,4 @@ public class WebInterfaceException extends OnlineMarketBaseException {
 	public WebInterfaceException(ErrorCode error) {
 		super(error);
 	}
-
-	public WebInterfaceException(ErrorCode error, String detail) {
-		super(error, detail);
-	}
 }

@@ -7,8 +7,4 @@ public class EmptyTokenException extends WebInterfaceException {
 	public EmptyTokenException(ErrorCode error) {
 		super(error);
 	}
-
-	public EmptyTokenException(ErrorCode error, String detail) {
-		super(error, detail);
-	}
 }

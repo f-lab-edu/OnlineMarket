@@ -7,8 +7,4 @@ public class EmptyAuthorizationHeaderException extends WebInterfaceException {
 	public EmptyAuthorizationHeaderException(ErrorCode error) {
 		super(error);
 	}
-
-	public EmptyAuthorizationHeaderException(ErrorCode error, String detail) {
-		super(error, detail);
-	}
 }

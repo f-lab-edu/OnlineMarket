@@ -7,8 +7,4 @@ public class UnauthorizedException extends WebInterfaceException {
 	public UnauthorizedException(ErrorCode error) {
 		super(error);
 	}
-
-	public UnauthorizedException(ErrorCode error, String detail) {
-		super(error, detail);
-	}
 }
