@@ -13,16 +13,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.market.application.domain.User;
-import com.market.application.service.CreateUserService;
-import com.market.application.service.dto.SignUpRequestDto;
-import com.market.global.exception.application.UserCreateFailException;
+import com.market.application.domain.dto.User;
+import com.market.application.exception.UserCreateFailException;
+import com.market.application.usecase.CreateUserUseCase;
+import com.market.application.usecase.dto.SignUpRequestDto;
 import com.market.repository.implementation.UserRepositoryImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class CreateUserServiceTest {
 	@InjectMocks
-	private CreateUserService createUserService;
+	private CreateUserUseCase createUserUseCase;
 	@Mock
 	private UserRepositoryImpl userRepository;
 	private final String email = "test@test.com";
@@ -36,7 +36,7 @@ public class CreateUserServiceTest {
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 		// when
 		final UserCreateFailException result = assertThrows(UserCreateFailException.class,
-			() -> createUserService.signUp(dto));
+			() -> createUserUseCase.signUp(dto));
 		// then
 		assertThat(result.getError().getCode()).isEqualTo("USER_CREATE_FAIL");
 	}
@@ -47,7 +47,7 @@ public class CreateUserServiceTest {
 		// given
 		when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 		// when
-		createUserService.signUp(signUpRequestDto());
+		createUserUseCase.signUp(signUpRequestDto());
 		// then
 		then(userRepository).should(times(1)).insertUser(any(User.class));
 	}

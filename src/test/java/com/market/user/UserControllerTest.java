@@ -22,27 +22,27 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.market.application.service.CreateUserService;
-import com.market.application.service.LoginService;
-import com.market.application.service.dto.LoginResponseDto;
-import com.market.application.service.dto.SignInRequestDto;
-import com.market.application.service.dto.SignUpRequestDto;
-import com.market.controller.ErrorController;
-import com.market.controller.UserController;
-import com.market.controller.dto.SignInRequest;
-import com.market.controller.dto.SignUpRequest;
-import com.market.global.exception.application.UserCreateFailException;
-import com.market.global.exception.errorCode.ApplicationErrorCode;
-import com.market.global.exception.errorCode.ControllerErrorCode;
+import com.market.application.exception.UserCreateFailException;
+import com.market.application.exception.errorCode.ApplicationErrorCode;
+import com.market.application.usecase.CreateUserUseCase;
+import com.market.application.usecase.LoginUseCase;
+import com.market.application.usecase.dto.LoginResponseDto;
+import com.market.application.usecase.dto.SignInRequestDto;
+import com.market.application.usecase.dto.SignUpRequestDto;
+import com.market.global.handler.GlobalExceptionHandler;
+import com.market.webInterface.controller.UserController;
+import com.market.webInterface.controller.dto.SignInRequest;
+import com.market.webInterface.controller.dto.SignUpRequest;
+import com.market.webInterface.exception.errorCode.WebInterfaceErrorCode;
 
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
 	@InjectMocks
 	private UserController userController;
 	@Mock
-	private CreateUserService createUserService;
+	private CreateUserUseCase createUserUseCase;
 	@Mock
-	private LoginService loginService;
+	private LoginUseCase loginService;
 	private ObjectMapper objectMapper;
 	private MockMvc mockMvc;
 
@@ -50,7 +50,7 @@ public class UserControllerTest {
 	public void init() {
 		objectMapper = new ObjectMapper();
 		mockMvc = MockMvcBuilders.standaloneSetup(userController)
-			.setControllerAdvice(new ErrorController())
+			.setControllerAdvice(new GlobalExceptionHandler())
 			.build();
 	}
 
@@ -74,7 +74,7 @@ public class UserControllerTest {
 		// then
 		resultActions.andExpect(status().isBadRequest())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.code").value(ControllerErrorCode.BAD_REQUEST.name()));
+			.andExpect(jsonPath("$.code").value(WebInterfaceErrorCode.BAD_REQUEST.name()));
 	}
 
 	@DisplayName("회원가입 실패_이미 등록된 회원")
@@ -83,7 +83,7 @@ public class UserControllerTest {
 		// given
 		final String url = "/users";
 		doThrow(new UserCreateFailException(ApplicationErrorCode.USER_CREATE_FAIL))
-			.when(createUserService).signUp(any(SignUpRequestDto.class));
+			.when(createUserUseCase).signUp(any(SignUpRequestDto.class));
 		// when
 		final ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.post(url)
@@ -129,7 +129,7 @@ public class UserControllerTest {
 		// then
 		resultActions.andExpect(status().isBadRequest())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.code").value(ControllerErrorCode.BAD_REQUEST.name()));
+			.andExpect(jsonPath("$.code").value(WebInterfaceErrorCode.BAD_REQUEST.name()));
 	}
 
 	// @DisplayName("로그인 실패_존재하지 않는 회원")

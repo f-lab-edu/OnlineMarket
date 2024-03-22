@@ -15,10 +15,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 
 import com.market.global.define.HeaderKey;
-import com.market.global.exception.controller.UnauthorizedException;
-import com.market.global.interceptor.AuthInterceptor;
 import com.market.global.util.TokenUtil;
 import com.market.repository.mapper.RedisTemplateMapper;
+import com.market.webInterface.exception.UnauthorizedException;
+import com.market.webInterface.interceptor.AuthInterceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
