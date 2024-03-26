@@ -20,13 +20,13 @@ import com.market.webInterface.exception.errorCode.WebInterfaceErrorCode;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public ErrorResponseDto handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
 		return makeErrorResponse(new WebInterfaceException(WebInterfaceErrorCode.METHOD_NOT_ALLOWED));
 	}
 
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
 	@ExceptionHandler(HttpMediaTypeNotSupportedException.class)
 	public ErrorResponseDto handleHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e) {
 		return makeErrorResponse(new WebInterfaceException(WebInterfaceErrorCode.UNSUPPORTED_MEDIA_TYPE));
@@ -59,12 +59,6 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(RepositoryException.class)
 	public ErrorResponseDto handleRepositoryException(RepositoryException e) {
-		return makeErrorResponse(e);
-	}
-
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(WebInterfaceException.class)
-	public ErrorResponseDto handleWebInterfaceException(WebInterfaceException e) {
 		return makeErrorResponse(e);
 	}
 

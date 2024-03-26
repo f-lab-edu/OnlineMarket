@@ -1,9 +1,9 @@
 package com.market.global.handler.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class ErrorResponseDto {
 	private final String code;
