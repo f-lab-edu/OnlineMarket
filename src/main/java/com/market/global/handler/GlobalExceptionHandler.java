@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
 		return new ErrorResponseDto(e.getError().getCode(), e.getError().getMessage());
 	}
 
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(OnlineMarketBaseException.class)
 	public ErrorResponseDto handleBaseException(OnlineMarketBaseException e) {
 		return new ErrorResponseDto(e.getError().getCode(), e.getError().getMessage());
