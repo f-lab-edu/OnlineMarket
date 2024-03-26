@@ -74,7 +74,7 @@ public class UserControllerTest {
 		// then
 		resultActions.andExpect(status().isBadRequest())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.code").value(WebInterfaceErrorCode.BAD_REQUEST.name()));
+			.andExpect(jsonPath("$.code").value(WebInterfaceErrorCode.INVALID_PARAMETER.getCode()));
 	}
 
 	@DisplayName("회원가입 실패_이미 등록된 회원")
@@ -129,7 +129,7 @@ public class UserControllerTest {
 		// then
 		resultActions.andExpect(status().isBadRequest())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.code").value(WebInterfaceErrorCode.BAD_REQUEST.name()));
+			.andExpect(jsonPath("$.code").value(WebInterfaceErrorCode.INVALID_PARAMETER.getCode()));
 	}
 
 	// @DisplayName("로그인 실패_존재하지 않는 회원")
