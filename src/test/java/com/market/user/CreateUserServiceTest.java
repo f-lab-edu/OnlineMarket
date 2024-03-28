@@ -13,15 +13,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.market.application.domain.User;
-import com.market.application.service.CreateUserService;
-import com.market.application.service.dto.SignUpRequestDto;
+import com.market.application.domain.dto.User;
+import com.market.application.exception.DuplicatedUserEmailException;
+import com.market.application.exception.base.ApplicationException;
+import com.market.application.usecase.CreateUserUseCase;
+import com.market.application.usecase.dto.SignUpRequestDto;
 import com.market.repository.implementation.UserRepositoryImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class CreateUserServiceTest {
 	@InjectMocks
-	private CreateUserService createUserService;
+	private CreateUserUseCase createUserUseCase;
 	@Mock
 	private UserRepositoryImpl userRepository;
 	private final String email = "test@test.com";
@@ -34,10 +36,10 @@ public class CreateUserServiceTest {
 		User user = dto.toDomain();
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 		// when
-		final RuntimeException result = assertThrows(IllegalArgumentException.class,
-			() -> createUserService.signUp(dto));
+		final ApplicationException result = assertThrows(DuplicatedUserEmailException.class,
+			() -> createUserUseCase.signUp(dto));
 		// then
-		assertThat(result.getMessage()).isEqualTo("이미 등록된 회원입니다");
+		assertThat(result.getError().getCode()).isEqualTo("DUPLICATED_USER_EMAIL");
 	}
 
 	@DisplayName("회원가입 성공")
@@ -46,7 +48,7 @@ public class CreateUserServiceTest {
 		// given
 		when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 		// when
-		createUserService.signUp(signUpRequestDto());
+		createUserUseCase.signUp(signUpRequestDto());
 		// then
 		then(userRepository).should(times(1)).insertUser(any(User.class));
 	}

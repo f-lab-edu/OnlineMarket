@@ -4,9 +4,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import com.market.application.domain.User;
+import com.market.application.domain.dto.User;
 import com.market.application.repository.interfaces.UserRepository;
-import com.market.repository.dto.UserDto;
+import com.market.repository.entity.UserEntity;
+import com.market.repository.exception.UserInsertFailException;
+import com.market.repository.exception.errorCode.RepositoryErrorCode;
 import com.market.repository.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -18,12 +20,16 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public void insertUser(User user) {
-		userMapper.insertUser(user.toEntity());
+		try {
+			userMapper.insertUser(user.toEntity());
+		} catch (Exception e) {
+			throw new UserInsertFailException(RepositoryErrorCode.USER_INSERT_FAIL);
+		}
 	}
 
 	@Override
 	public Optional<User> findByEmail(String email) {
-		Optional<UserDto> userDto = userMapper.findByEmail(email);
+		Optional<UserEntity> userDto = userMapper.findByEmail(email);
 		if (userDto.isEmpty()) {
 			return Optional.empty();
 		} else {
@@ -33,7 +39,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public Optional<User> findByEmailAndPassword(String email, String password) {
-		Optional<UserDto> userDto = userMapper.findByEmailAndPassword(email, password);
+		Optional<UserEntity> userDto = userMapper.findByEmailAndPassword(email, password);
 		if (userDto.isEmpty()) {
 			return Optional.empty();
 		} else {

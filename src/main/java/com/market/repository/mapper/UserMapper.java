@@ -4,13 +4,13 @@ import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.market.repository.dto.UserDto;
+import com.market.repository.entity.UserEntity;
 
 @Mapper
 public interface UserMapper {
-	void insertUser(UserDto user);
+	void insertUser(UserEntity user);
 
-	Optional<UserDto> findByEmail(String email);
+	Optional<UserEntity> findByEmail(String email);
 
-	Optional<UserDto> findByEmailAndPassword(String email, String password);
+	Optional<UserEntity> findByEmailAndPassword(String email, String password);
 }
