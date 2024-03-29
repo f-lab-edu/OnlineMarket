@@ -13,17 +13,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.market.user.controller.dto.SignUpRequestDto;
-import com.market.user.domain.User;
-import com.market.user.repository.UserRepository;
-import com.market.user.service.CreateUserService;
+import com.market.application.domain.dto.User;
+import com.market.application.exception.DuplicatedUserEmailException;
+import com.market.application.exception.base.ApplicationException;
+import com.market.application.usecase.CreateUserUseCase;
+import com.market.application.usecase.dto.SignUpRequestDto;
+import com.market.repository.implementation.UserRepositoryImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class CreateUserServiceTest {
 	@InjectMocks
-	private CreateUserService createUserService;
+	private CreateUserUseCase createUserUseCase;
 	@Mock
-	private UserRepository userRepository;
+	private UserRepositoryImpl userRepository;
 	private final String email = "test@test.com";
 
 	@DisplayName("회원가입 실패_이미 회원 존재")
@@ -31,13 +33,13 @@ public class CreateUserServiceTest {
 	public void isDuplicatedUserSignUp() {
 		// given
 		SignUpRequestDto dto = signUpRequestDto();
-		User user = dto.toEntity();
+		User user = dto.toDomain();
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 		// when
-		final RuntimeException result = assertThrows(IllegalArgumentException.class,
-			() -> createUserService.signUp(dto));
+		final ApplicationException result = assertThrows(DuplicatedUserEmailException.class,
+			() -> createUserUseCase.signUp(dto));
 		// then
-		assertThat(result.getMessage()).isEqualTo("이미 등록된 회원입니다");
+		assertThat(result.getError().getCode()).isEqualTo("DUPLICATED_USER_EMAIL");
 	}
 
 	@DisplayName("회원가입 성공")
@@ -46,17 +48,12 @@ public class CreateUserServiceTest {
 		// given
 		when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 		// when
-		createUserService.signUp(signUpRequestDto());
+		createUserUseCase.signUp(signUpRequestDto());
 		// then
 		then(userRepository).should(times(1)).insertUser(any(User.class));
 	}
 
 	private SignUpRequestDto signUpRequestDto() {
-		return SignUpRequestDto.builder()
-			.email(email)
-			.name("테스트")
-			.password("test")
-			.tel("01012341234")
-			.build();
+		return new SignUpRequestDto("테스트", email, "test", "01012341234");
 	}
 }

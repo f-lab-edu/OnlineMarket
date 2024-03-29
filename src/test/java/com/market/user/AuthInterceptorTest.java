@@ -14,11 +14,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 
-import com.market.auth.AuthInterceptor;
-import com.market.auth.exception.UnauthorizedException;
-import com.market.auth.repository.RedisTemplateRepository;
 import com.market.global.define.HeaderKey;
-import com.market.util.TokenUtil;
+import com.market.global.util.TokenUtil;
+import com.market.repository.mapper.RedisTemplateMapper;
+import com.market.webInterface.exception.UnauthorizedException;
+import com.market.webInterface.interceptor.AuthInterceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,7 +28,7 @@ public class AuthInterceptorTest {
 	@InjectMocks
 	private AuthInterceptor authInterceptor;
 	@Mock
-	private RedisTemplateRepository redisRepository;
+	private RedisTemplateMapper redisRepository;
 	@Mock
 	private HttpServletRequest request;
 	@Mock
@@ -41,10 +41,10 @@ public class AuthInterceptorTest {
 		// given
 		when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn("");
 		// when
-		final RuntimeException result = assertThrows(UnauthorizedException.class,
+		final UnauthorizedException result = assertThrows(UnauthorizedException.class,
 			() -> authInterceptor.preHandle(request, response, any(Object.class)));
 		//then
-		assertThat(result.getMessage()).isEqualTo("인증되지 않은 사용자입니다.");
+		assertThat(result.getError().getCode()).isEqualTo("UNAUTHORIZED");
 	}
 
 	@DisplayName("인증 살패_유효하지 않은 토큰")
@@ -54,10 +54,10 @@ public class AuthInterceptorTest {
 		when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(HeaderKey.BEARER + "");
 		when(redisRepository.get("")).thenReturn(null);
 		// when
-		final RuntimeException result = assertThrows(UnauthorizedException.class,
+		final UnauthorizedException result = assertThrows(UnauthorizedException.class,
 			() -> authInterceptor.preHandle(request, response, new Object()));
 		//then
-		assertThat(result.getMessage()).isEqualTo("인증되지 않은 사용자입니다.");
+		assertThat(result.getError().getCode()).isEqualTo("UNAUTHORIZED");
 	}
 
 	@DisplayName("인증 성공")
