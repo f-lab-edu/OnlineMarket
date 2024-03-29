@@ -1,0 +1,37 @@
+[2024-03-29 23:22:18.353] [background-preinit] INFO  []  : o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+[2024-03-29 23:22:18.417] [main] INFO  []  : com.market.MarketApplication - Starting MarketApplication using Java 17.0.9 with PID 88070 (/Users/minjung/IdeaProjects/market/build/classes/java/main started by minjung in /Users/minjung/IdeaProjects/market)
+[2024-03-29 23:22:18.419] [main] INFO  []  : com.market.MarketApplication - No active profile set, falling back to 1 default profile: "default"
+[2024-03-29 23:22:19.225] [main] INFO  []  : o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+[2024-03-29 23:22:19.228] [main] INFO  []  : o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[2024-03-29 23:22:19.286] [main] INFO  []  : o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 40 ms. Found 0 Redis repository interfaces.
+[2024-03-29 23:22:19.761] [main] INFO  []  : o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8086 (http)
+[2024-03-29 23:22:19.768] [main] INFO  []  : o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8086"]
+[2024-03-29 23:22:19.769] [main] INFO  []  : o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2024-03-29 23:22:19.769] [main] INFO  []  : o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+[2024-03-29 23:22:19.809] [main] INFO  []  : o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2024-03-29 23:22:19.810] [main] INFO  []  : o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1339 ms
+[2024-03-29 23:22:20.644] [main] INFO  []  : o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8086"]
+[2024-03-29 23:22:20.658] [main] INFO  []  : o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8086 (http) with context path ''
+[2024-03-29 23:22:20.670] [main] INFO  []  : com.market.MarketApplication - Started MarketApplication in 2.832 seconds (process running for 3.624)
+[2024-03-29 23:22:41.367] [background-preinit] INFO  []  : o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+[2024-03-29 23:22:41.427] [main] INFO  []  : com.market.MarketApplication - Starting MarketApplication using Java 17.0.9 with PID 88083 (/Users/minjung/IdeaProjects/market/build/classes/java/main started by minjung in /Users/minjung/IdeaProjects/market)
+[2024-03-29 23:22:41.429] [main] INFO  []  : com.market.MarketApplication - No active profile set, falling back to 1 default profile: "default"
+[2024-03-29 23:22:42.237] [main] INFO  []  : o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+[2024-03-29 23:22:42.239] [main] INFO  []  : o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[2024-03-29 23:22:42.269] [main] INFO  []  : o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 21 ms. Found 0 Redis repository interfaces.
+[2024-03-29 23:22:42.759] [main] INFO  []  : o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8086 (http)
+[2024-03-29 23:22:42.763] [main] INFO  []  : o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8086"]
+[2024-03-29 23:22:42.764] [main] INFO  []  : o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2024-03-29 23:22:42.765] [main] INFO  []  : o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+[2024-03-29 23:22:42.818] [main] INFO  []  : o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2024-03-29 23:22:42.819] [main] INFO  []  : o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1343 ms
+[2024-03-29 23:22:43.777] [main] INFO  []  : o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8086"]
+[2024-03-29 23:22:43.790] [main] INFO  []  : o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8086 (http) with context path ''
+[2024-03-29 23:22:43.800] [main] INFO  []  : com.market.MarketApplication - Started MarketApplication in 3.058 seconds (process running for 4.285)
+[2024-03-29 23:23:01.219] [http-nio-8086-exec-1] INFO  []  : o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2024-03-29 23:23:01.221] [http-nio-8086-exec-1] INFO  []  : o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2024-03-29 23:23:01.226] [http-nio-8086-exec-1] INFO  []  : o.s.web.servlet.DispatcherServlet - Completed initialization in 5 ms
+[2024-03-29 23:23:01.429] [http-nio-8086-exec-1] INFO  [100d83df-9551-4002-b9e9-d76d545573dc]  : com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2024-03-29 23:23:01.754] [http-nio-8086-exec-1] INFO  [100d83df-9551-4002-b9e9-d76d545573dc]  : com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@70988e77
+[2024-03-29 23:23:01.756] [http-nio-8086-exec-1] INFO  [100d83df-9551-4002-b9e9-d76d545573dc]  : com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2024-03-29 23:23:01.820] [http-nio-8086-exec-1] INFO  [100d83df-9551-4002-b9e9-d76d545573dc]  : c.m.w.filter.MDCLoggingFilter - {"api":"/users","method":"POST","requestId":"100d83df-9551-4002-b9e9-d76d545573dc","domain":"localhost","status":"400"}

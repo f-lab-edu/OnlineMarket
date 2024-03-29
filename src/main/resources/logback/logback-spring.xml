@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<timestamp key="BY_DATE" datePattern="yyyy-MM-dd"/>
+	<property name="LOG_PATTERN"
+			  value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level [%X{requestId}]  : %logger{36} - %msg%n"/>
+	<springProfile name="!prod">
+		<include resource="logback/console-appender.xml"/>
+		<root level="INFO">
+			<appender-ref ref="CONSOLE"/>
+		</root>
+	</springProfile>
+	<springProfile name="!prod">
+		<include resource="logback/access-file-appender.xml"/>
+		<include resource="logback/error-file-appender.xml"/>
+		<root level="INFO">
+			<appender-ref ref="ACCESS-FILE"/>
+			<appender-ref ref="ERROR-FILE"/>
+		</root>
+	</springProfile>
+</configuration>
