@@ -1,1 +1,0 @@
-[2024-04-03 05:34:10.598] [http-nio-8086-exec-5] ERROR [5cf2b50b-546a-42aa-94f1-7c7700c9eca4]  : c.m.g.handler.GlobalExceptionHandler - {"errorMessage":"인증되지 않은 사용자","requestId":"5cf2b50b-546a-42aa-94f1-7c7700c9eca4"}
