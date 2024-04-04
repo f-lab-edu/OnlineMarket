@@ -1,0 +1,4 @@
+[2024-04-02 13:44:20.766] [http-nio-8086-exec-5] ERROR [59c94245-88de-4b8e-97bf-f180ecae1576]  : c.m.g.handler.GlobalExceptionHandler - {"errorMessage":"인증되지 않은 사용자","requestId":"59c94245-88de-4b8e-97bf-f180ecae1576"}
+[2024-04-02 13:45:04.558] [http-nio-8086-exec-7] ERROR [114497cc-69ad-4b4c-922c-d61c7546ad52]  : c.m.g.handler.GlobalExceptionHandler - {"errorMessage":"인증되지 않은 사용자","requestId":"114497cc-69ad-4b4c-922c-d61c7546ad52"}
+[2024-04-02 14:11:18.177] [http-nio-8086-exec-10] ERROR [14b4b23e-55f3-45e9-99b7-f5cf986c0606]  : c.m.g.handler.GlobalExceptionHandler - {"errorMessage":"인증되지 않은 사용자","requestId":"14b4b23e-55f3-45e9-99b7-f5cf986c0606"}
+[2024-04-02 14:11:54.567] [http-nio-8086-exec-1] ERROR [2fbd35bd-61ed-4396-ba5e-cce3d8c012c2]  : c.m.g.handler.GlobalExceptionHandler - {"errorMessage":"인증되지 않은 사용자","requestId":"2fbd35bd-61ed-4396-ba5e-cce3d8c012c2"}

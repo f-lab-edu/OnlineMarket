@@ -1,0 +1,17 @@
+[2024-04-02 13:44:20.773] [http-nio-8086-exec-5] INFO  [59c94245-88de-4b8e-97bf-f180ecae1576]  : c.m.w.filter.MDCLoggingFilter - {"errorMessage":"인증되지 않은 사용자","requestId":"59c94245-88de-4b8e-97bf-f180ecae1576","status":"401"}
+[2024-04-02 13:45:04.564] [http-nio-8086-exec-7] INFO  [114497cc-69ad-4b4c-922c-d61c7546ad52]  : c.m.w.filter.MDCLoggingFilter - {"errorMessage":"인증되지 않은 사용자","requestId":"114497cc-69ad-4b4c-922c-d61c7546ad52","status":"401"}
+[2024-04-02 14:11:18.185] [http-nio-8086-exec-10] INFO  [14b4b23e-55f3-45e9-99b7-f5cf986c0606]  : c.m.w.filter.MDCLoggingFilter - {"errorMessage":"인증되지 않은 사용자","requestId":"14b4b23e-55f3-45e9-99b7-f5cf986c0606","status":"401"}
+[2024-04-02 14:11:54.574] [http-nio-8086-exec-1] INFO  [2fbd35bd-61ed-4396-ba5e-cce3d8c012c2]  : c.m.w.filter.MDCLoggingFilter - {"errorMessage":"인증되지 않은 사용자","requestId":"2fbd35bd-61ed-4396-ba5e-cce3d8c012c2","status":"401"}
+[2024-04-02 19:35:10.846] [http-nio-8086-exec-4] INFO  []  : o.a.coyote.http11.Http11Processor - Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in method name [MGLNDD_168.126.18.98_80860x0a...]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:407)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:264)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:840)
