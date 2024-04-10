@@ -18,6 +18,10 @@
 		"$resolver": "logger",
 		"field": "name"
 	},
+	"requestId": {
+		"$resolver": "message",
+		"stringified": true
+	},
 	"error.type": {
 		"$resolver": "exception",
 		"field": "className"

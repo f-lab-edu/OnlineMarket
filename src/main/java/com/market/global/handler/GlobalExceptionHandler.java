@@ -80,7 +80,7 @@ public class GlobalExceptionHandler {
 
 	private ErrorResponseDto makeErrorResponse(OnlineMarketBaseException e, Exception cause) {
 		logging(e);
-		logger.error("{}", e.getError().getMessage(), cause);
+		logger.error("{}", MDC.get("requestId"), cause);
 		return new ErrorResponseDto(e.getError().getCode(), e.getError().getMessage());
 	}
 
