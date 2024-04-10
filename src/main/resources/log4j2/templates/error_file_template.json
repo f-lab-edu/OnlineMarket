@@ -1,0 +1,29 @@
+{
+	"@timestamp": {
+		"$resolver": "timestamp",
+		"pattern": {
+			"format": "yyyy-MM-dd HH:mm:ss.SSS",
+			"timeZone": "UTC"
+		}
+	},
+	"log.level": {
+		"$resolver": "level",
+		"field": "name"
+	},
+	"process.thread.name": {
+		"$resolver": "thread",
+		"field": "name"
+	},
+	"log.logger": {
+		"$resolver": "logger",
+		"field": "name"
+	},
+	"error.type": {
+		"$resolver": "exception",
+		"field": "className"
+	},
+	"error.message": {
+		"$resolver": "exception",
+		"field": "message"
+	}
+}

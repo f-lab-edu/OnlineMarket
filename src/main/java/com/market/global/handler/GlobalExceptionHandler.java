@@ -1,5 +1,7 @@
 package com.market.global.handler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -19,11 +21,10 @@ import com.market.webInterface.exception.UnauthorizedException;
 import com.market.webInterface.exception.base.WebInterfaceException;
 import com.market.webInterface.exception.errorCode.WebInterfaceErrorCode;
 
-import lombok.extern.slf4j.Slf4j;
-
 @RestControllerAdvice
-@Slf4j
 public class GlobalExceptionHandler {
+	private static final Logger logger = LoggerFactory.getLogger("errorLogger");
+
 	@ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public ErrorResponseDto handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
@@ -69,7 +70,7 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	public ErrorResponseDto handleBaseException(Exception e) {
-		return makeErrorResponse(new OnlineMarketBaseException(OnlineMarketBaseErrorCode.INTERNAL_SERER_ERROR));
+		return makeErrorResponse(new OnlineMarketBaseException(OnlineMarketBaseErrorCode.INTERNAL_SERER_ERROR), e);
 	}
 
 	private ErrorResponseDto makeErrorResponse(OnlineMarketBaseException e) {
@@ -77,7 +78,14 @@ public class GlobalExceptionHandler {
 		return new ErrorResponseDto(e.getError().getCode(), e.getError().getMessage());
 	}
 
-	private void logging(Exception ex) {
-		MDC.put("errorMessage", ex.getMessage());
+	private ErrorResponseDto makeErrorResponse(OnlineMarketBaseException e, Exception cause) {
+		logging(e);
+		logger.error("{}", e.getError().getMessage(), cause);
+		return new ErrorResponseDto(e.getError().getCode(), e.getError().getMessage());
+	}
+
+	private void logging(OnlineMarketBaseException ex) {
+		MDC.put("errorMessage", ex.getError().getMessage());
+		MDC.put("errorCode", ex.getError().getCode());
 	}
 }

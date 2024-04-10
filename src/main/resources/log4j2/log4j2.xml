@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<Properties>
+		<Property name="LOG_PATTERN">
+			[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level [%X{requestId}] : %logger{36} - %msg%n
+		</Property>
+	</Properties>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${LOG_PATTERN}"/>
+		</Console>
+		<RollingFile name="AccessFile" fileName="./log/access/access.log"
+					 filePattern="./backup/access/access-%d{yyyy-MM-dd}.%i.log">
+			<Filters>
+				<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
+			<JsonTemplateLayout eventTemplateUri="classpath:log4j2/templates/access_file_template.json"/>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10KB"/>
+			</Policies>
+		</RollingFile>
+
+		<RollingFile name="ErrorFile" fileName="./log/error/error.log"
+					 filePattern="./backup/error/error-%d{yyyy-MM-dd}.%i.log">
+			<Filters>
+				<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
+			<JsonTemplateLayout eventTemplateUri="classpath:log4j2/templates/error_file_template.json">
+				<KeyValuePair key="requestId" value="$${ctx:requestId:-NA}"/>
+				<KeyValuePair key="errorMessage" value="$${message:-NA}"/>
+				<KeyValuePair key="detailMessage" value="$${exception:message:-NA}"/>
+				<KeyValuePair key="errorType" value="$${exception:className:-NA}"/>
+			</JsonTemplateLayout>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10KB"/>
+			</Policies>
+		</RollingFile>
+
+		<RollingFile name="InfoFile" fileName="./log/info/info.log"
+					 filePattern="./backup/info/info-%d{yyyy-MM-dd}.%i.log">
+			<Filters>
+				<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
+			<PatternLayout pattern="${LOG_PATTERN}"/>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10KB"/>
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Logger name="accessLogger" level="INFO" additivity="false">
+			<AppenderRef ref="AccessFile"/>
+		</Logger>
+
+		<Logger name="errorLogger" level="ERROR" additivity="false">
+			<AppenderRef ref="ErrorFile"/>
+		</Logger>
+
+		<Root level="INFO">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="InfoFile"/>
+		</Root>
+	</Loggers>
+</configuration>

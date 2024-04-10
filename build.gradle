@@ -16,10 +16,20 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+	all {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	implementation 'org.apache.logging.log4j:log4j-layout-template-json:2.20.0'
+
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.projectlombok:lombok'
