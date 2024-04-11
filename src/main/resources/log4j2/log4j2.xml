@@ -25,12 +25,7 @@
 			<Filters>
 				<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
 			</Filters>
-			<JsonTemplateLayout eventTemplateUri="classpath:log4j2/templates/error_file_template.json">
-				<KeyValuePair key="requestId" value="$${ctx:requestId:-NA}"/>
-				<KeyValuePair key="errorMessage" value="$${message:-NA}"/>
-				<KeyValuePair key="detailMessage" value="$${exception:message:-NA}"/>
-				<KeyValuePair key="errorType" value="$${exception:className:-NA}"/>
-			</JsonTemplateLayout>
+			<JsonTemplateLayout eventTemplateUri="classpath:log4j2/templates/error_file_template.json"/>
 			<Policies>
 				<SizeBasedTriggeringPolicy size="10KB"/>
 			</Policies>

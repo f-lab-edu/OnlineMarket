@@ -6,11 +6,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.market.application.repository.interfaces.RedisRepository;
+import com.market.global.annotation.ExecutionTimeChecker;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Repository
+@ExecutionTimeChecker
 public class RedisTemplateMapper implements RedisRepository {
 	private final RedisTemplate<String, String> redisTemplate;
 
