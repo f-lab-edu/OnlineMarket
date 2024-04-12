@@ -11,7 +11,7 @@ import org.springframework.util.StopWatch;
 @Component
 public class ExecutionTimeAOP {
 	@Around("@within(com.market.global.annotation.ExecutionTimeChecker)")
-	public Object dbExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+	public Object executionTime(ProceedingJoinPoint joinPoint) throws Throwable {
 		StopWatch sw = new StopWatch();
 		sw.start();
 		Object result = joinPoint.proceed();
