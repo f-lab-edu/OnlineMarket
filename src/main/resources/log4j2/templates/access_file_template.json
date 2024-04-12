@@ -1,0 +1,14 @@
+{
+	"timestamp": {
+		"$resolver": "timestamp",
+		"pattern": {
+			"format": "yyyy-MM-dd HH:mm:ss.SSS",
+			"timeZone": "UTC"
+		}
+	},
+	"labels": {
+		"$resolver": "mdc",
+		"flatten": true,
+		"stringified": true
+	}
+}

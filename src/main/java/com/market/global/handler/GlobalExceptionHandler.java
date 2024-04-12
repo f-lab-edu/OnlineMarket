@@ -1,5 +1,8 @@
 package com.market.global.handler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -20,6 +23,8 @@ import com.market.webInterface.exception.errorCode.WebInterfaceErrorCode;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+	private static final Logger logger = LoggerFactory.getLogger("errorLogger");
+
 	@ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public ErrorResponseDto handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
@@ -65,10 +70,22 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	public ErrorResponseDto handleBaseException(Exception e) {
-		return makeErrorResponse(new OnlineMarketBaseException(OnlineMarketBaseErrorCode.INTERNAL_SERER_ERROR));
+		return makeErrorResponse(new OnlineMarketBaseException(OnlineMarketBaseErrorCode.INTERNAL_SERER_ERROR), e);
 	}
 
 	private ErrorResponseDto makeErrorResponse(OnlineMarketBaseException e) {
+		logging(e);
 		return new ErrorResponseDto(e.getError().getCode(), e.getError().getMessage());
+	}
+
+	private ErrorResponseDto makeErrorResponse(OnlineMarketBaseException e, Exception cause) {
+		logging(e);
+		logger.error("{}", MDC.get("requestId"), cause);
+		return new ErrorResponseDto(e.getError().getCode(), e.getError().getMessage());
+	}
+
+	private void logging(OnlineMarketBaseException ex) {
+		MDC.put("errorMessage", ex.getError().getMessage());
+		MDC.put("errorCode", ex.getError().getCode());
 	}
 }

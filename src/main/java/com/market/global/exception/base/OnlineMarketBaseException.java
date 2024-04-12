@@ -9,6 +9,7 @@ public class OnlineMarketBaseException extends RuntimeException {
 	private final ErrorCode error;
 
 	public OnlineMarketBaseException(ErrorCode error) {
+		super(error.getMessage());
 		this.error = error;
 	}
 }
