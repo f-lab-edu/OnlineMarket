@@ -1,18 +1,21 @@
 server:
-  port: 8086
+    port: 8086
 
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/Market?serverTimezone=UTC&useLegacyDatetimeCode=false
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      password: ${SPRING_REDIS_PASSWORD}
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/Market?serverTimezone=UTC&useLegacyDatetimeCode=false
+        username: ${SPRING_DATASOURCE_USERNAME}
+        password: ${SPRING_DATASOURCE_PASSWORD}
+    data:
+        redis:
+            host: localhost
+            port: 6379
+            password: ${SPRING_REDIS_PASSWORD}
 
 mybatis:
-  type-aliases-package: com.market.*.domain
-  mapper-locations: mybatis/mapper/*.xml
+    type-aliases-package: com.market.*.domain
+    mapper-locations: mybatis/mapper/*.xml
+
+logging:
+    config: classpath:log4j2/log4j2.xml
