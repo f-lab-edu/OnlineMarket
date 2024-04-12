@@ -9,6 +9,7 @@ import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -24,15 +25,20 @@ public class MDCLoggingFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws IOException, ServletException {
+		StopWatch sw = new StopWatch();
+		sw.start();
+		final String uuid = UUID.randomUUID().toString();
+		MDC.put("requestId", uuid);
+		MDC.put("method", request.getMethod());
+		MDC.put("url", request.getServerName());
+		MDC.put("path", request.getRequestURI());
 		try {
-			final String uuid = UUID.randomUUID().toString();
-			MDC.put("requestId", uuid);
-			MDC.put("method", request.getMethod());
-			MDC.put("domain", request.getServerName());
-			MDC.put("api", request.getRequestURI());
 			filterChain.doFilter(request, response);
 		} finally {
 			MDC.put("status", String.valueOf(response.getStatus()));
+			sw.stop();
+			long executionTime = sw.getTotalTimeMillis();
+			MDC.put("total executionTime(ms)", String.valueOf(executionTime));
 			logger.info("access.log");
 			MDC.clear();
 		}
