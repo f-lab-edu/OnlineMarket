@@ -29,14 +29,14 @@ jobs:
       run: chmod +x gradlew
       
     - name: Build with Gradle
-      run: ./gradlew clean build --stackstrace
+      run: ./gradlew clean build
       
     - name: Run Test
       run: ./gradlew --info test
       
     - name: Report Test Result
       uses: EnricoMi/publish-unit-test-result-action@v2
-      if: always()  # 테스트가 실패하여도 Report를 보기 위해 `always`로 설정
+      if: always()
       with:
          files: 'build/test-results/**/*.xml'
     
@@ -44,7 +44,7 @@ jobs:
       uses: mikepenz/action-junit-report@v3
       if: always()
       with:
-        report_paths: '**/build/test-results/test/TEST-*.xml'
+        report_paths: 'build/test-results/test/TEST-*.xml'
     - name: Add coverage to PR
       id: jacoco
       uses: madrapps/jacoco-report@v1.2
