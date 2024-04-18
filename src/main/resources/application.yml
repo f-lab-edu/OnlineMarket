@@ -4,12 +4,12 @@ server:
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/Market?serverTimezone=UTC&useLegacyDatetimeCode=false
+        url: jdbc:mysql://223.130.142.30:3306/Market?serverTimezone=UTC&useLegacyDatetimeCode=false
         username: ${SPRING_DATASOURCE_USERNAME}
         password: ${SPRING_DATASOURCE_PASSWORD}
     data:
         redis:
-            host: localhost
+            host: 223.130.142
             port: 6379
             password: ${SPRING_REDIS_PASSWORD}
 
