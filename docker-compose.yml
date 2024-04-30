@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+    app:
+        container_name: app
+        image: mingmong/market
+        environment:
+            DATABASE_HOST: ${DATABASE_HOST}
+            DATABASE_PORT: ${DATABASE_PORT}
+            DATABASE_USERNAME: ${DATABASE_USERNAME}
+            DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+        depends_on:
+            - mysql
+            - redis
+        ports:
+            - "8080:8080"
+    mysql:
+        container_name: mysql
+        image: mysql:8.0.28
+        platform: linux/amd64
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${DATABASE_USERNAME}
+            MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+            REDIS_HOST: ${REDIS_HOST}
+            REDIS_PORT: ${REDIS_PORT}
+    redis:
+        container_name: redis
+        image: redis:alpine
+        command: redis-server --port ${REDIS_PORT}
