@@ -8,6 +8,8 @@ services:
             DATABASE_PORT: ${DATABASE_PORT}
             DATABASE_USERNAME: ${DATABASE_USERNAME}
             DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+            REDIS_HOST: ${REDIS_HOST}
+            REDIS_PORT: ${REDIS_PORT}
         depends_on:
             - mysql
             - redis
@@ -22,8 +24,6 @@ services:
             MYSQL_USER: ${DATABASE_USERNAME}
             MYSQL_PASSWORD: ${DATABASE_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
-            REDIS_HOST: ${REDIS_HOST}
-            REDIS_PORT: ${REDIS_PORT}
     redis:
         container_name: redis
         image: redis:alpine
