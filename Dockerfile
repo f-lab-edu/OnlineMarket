@@ -5,16 +5,16 @@ FROM openjdk:17-slim as build
 WORKDIR /app
 
 # 라이브러리 설치에 필요한 파일만 복사
-COPY build.gradle settings.gradle ./
+COPY gradlew build.gradle settings.gradle ./
 
 # 라이브러리만 다운로드
-RUN gradle build -x test --parallel --continue > /dev/null 2>&1 || true
+RUN ./gradlew build -x test --parallel --continue > /dev/null 2>&1 || true
 
 # 호스트 머신의 소스코드를 작업 디렉토리로 복사
 COPY . /app
 
 # Gradle 빌드를 실행하여 JAR 파일 생성
-RUN gradle clean build -x test --parallel
+RUN ./gradlew clean build -x test --parallel
 
 # 런타임 이미지로 OpenJDK 17-slim 지정
 FROM openjdk:17-slim
