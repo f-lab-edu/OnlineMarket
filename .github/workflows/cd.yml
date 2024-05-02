@@ -31,7 +31,6 @@ jobs:
                     file: ./Dockerfile
                     push: true
                     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}
-                    platforms: linux/amd64, linux/arm64
 
             -   name: MySQL Build & Push Docker Image
                 uses: docker/build-push-action@v4
@@ -40,7 +39,6 @@ jobs:
                     file: ./database/Dockerfile
                     push: true
                     tags: ${{ secrets.DOCKERHUB_USERNAME }}/mysql
-                    platforms: linux/amd64, linux/arm64
 
             -   name: Deploy
                 uses: appleboy/ssh-action@master
