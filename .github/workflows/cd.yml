@@ -24,13 +24,23 @@ jobs:
                     username: ${{ secrets.DOCKERHUB_USERNAME }}
                     password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-            -   name: Build & Push Docker Image
+            -   name: App Build & Push Docker Image
                 uses: docker/build-push-action@v4
                 with:
                     context: .
                     file: ./Dockerfile
                     push: true
                     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}
+                    platforms: linux/amd64, linux/arm64
+
+            -   name: MySQL Build & Push Docker Image
+                uses: docker/build-push-action@v4
+                with:
+                    context: ./database
+                    file: ./database/Dockerfile
+                    push: true
+                    tags: ${{ secrets.DOCKERHUB_USERNAME }}/mysql
+                    platforms: linux/amd64, linux/arm64
 
             -   name: Deploy
                 uses: appleboy/ssh-action@master
@@ -43,6 +53,7 @@ jobs:
                     script: |
                         sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
                         sudo docker rm -f $(docker ps -q -a)
+                        sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/mysql
                         sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}
                         docker-compose up -d
                         docker image prune -f
