@@ -1,5 +1,5 @@
 # 빌드 이미지로 OpenJDK 17 & Gradle을 지정
-FROM gradle:7.6-jdk17-alpine AS build
+FROM openjdk:17-slim as build
 
 # 소스코드를 복사할 작업 디렉토리를 생성
 WORKDIR /app
