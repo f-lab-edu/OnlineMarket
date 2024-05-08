@@ -3,7 +3,6 @@ package com.market.global.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -19,11 +18,7 @@ public class RedisTokenConfig {
 
 	@Bean
 	public RedisConnectionFactory redisConnectionFactory() {
-		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-		config.setHostName(redisProperties.getHost());
-		config.setPort(redisProperties.getPort());
-		config.setPassword(redisProperties.getPassword());
-		return new LettuceConnectionFactory(config);
+		return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
 	}
 
 	@Bean

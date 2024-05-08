@@ -13,5 +13,4 @@ import lombok.Setter;
 public class RedisProperties {
 	private String host;
 	private int port;
-	private String password;
 }
