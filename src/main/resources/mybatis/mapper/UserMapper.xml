@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.market.repository.mapper.UserMapper">
-	<insert id="insertUser" parameterType="com.market.repository.entity.UserEntity">
+<mapper namespace="com.market.user.adapter.out.persistence.mybatis.mapper.UserMapper">
+	<insert id="insertUser" parameterType="com.market.user.adapter.out.persistence.mybatis.dto.UserDto">
 		INSERT INTO User (email, password, name, tel)
 		VALUES (#{email}, #{password}, #{name}, #{tel})
 	</insert>
-	<select id="findByEmail" resultType="com.market.repository.entity.UserEntity">
+	<select id="findByEmail" resultType="com.market.user.adapter.out.persistence.mybatis.dto.UserDto">
 		SELECT id, email, password, name, tel
 		FROM User
 		WHERE email = #{email}
 	</select>
-	<select id="findByEmailAndPassword" resultType="com.market.repository.entity.UserEntity">
+	<select id="findByEmailAndPassword" resultType="com.market.user.adapter.out.persistence.mybatis.dto.UserDto">
 		SELECT id, email, password, name, tel
 		FROM User
 		WHERE email = #{email}
